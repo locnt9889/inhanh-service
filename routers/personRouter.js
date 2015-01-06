@@ -3,8 +3,8 @@
  */
 
 var express = require('express');
-var personModel = require("../Models/personModel");
-var personService = require("../Services/personServices");
+var personModel = require("../models/personModel");
+var personService = require("../services/personServices");
 var router = express.Router();
 
 router.get('/add', function(req, res) {
