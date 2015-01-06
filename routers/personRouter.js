@@ -28,8 +28,4 @@ router.get('/removebyid', function(req, res) {
     personService.removePersonById(res,id);
 });
 
-router.get('/chat', function(req, res) {
-    res.sendfile("routers/chat.html");
-});
-
 module.exports = router;
