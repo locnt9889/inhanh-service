@@ -14,4 +14,17 @@ router.get('/add', function(req, res) {
     personService.addNewPerson(res, newPerson);
 });
 
+router.get('/findall', function(req, res) {
+    personService.findAllPerson(res);
+});
+
+router.get('/findbyid', function(req, res) {
+    var id = req.param("id");
+    personService.findPersonById(res,id);
+});
+
+router.get('/chat', function(req, res) {
+    res.sendfile("routers/chat.html");
+});
+
 module.exports = router;

@@ -6,3 +6,11 @@ var personDao = require("../daos/personDao");
 exports.addNewPerson = function(res,newPersonModel){
     personDao.addNewPerson(res, newPersonModel);
 }
+
+exports.findAllPerson = function(res){
+    personDao.findAllPerson(res);
+}
+
+exports.findPersonById = function(res, id){
+    personDao.findPersonById(res, id);
+}

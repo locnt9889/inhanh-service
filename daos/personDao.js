@@ -8,3 +8,11 @@ var TableNamePerson = "person";
 exports.addNewPerson = function(res, newPersonModel){
     mongoDao.addNew(res, TableNamePerson, newPersonModel);
 }
+
+exports.findAllPerson = function(res){
+    mongoDao.findAll(res, TableNamePerson);
+}
+
+exports.findPersonById = function(res, id){
+    mongoDao.findById(res, TableNamePerson, id);
+}
