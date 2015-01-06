@@ -16,3 +16,7 @@ exports.findAllPerson = function(res){
 exports.findPersonById = function(res, id){
     mongoDao.findById(res, TableNamePerson, id);
 }
+
+exports.removePersonById = function(res, id){
+    mongoDao.removeById(res, TableNamePerson, id);
+}

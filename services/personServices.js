@@ -14,3 +14,7 @@ exports.findAllPerson = function(res){
 exports.findPersonById = function(res, id){
     personDao.findPersonById(res, id);
 }
+
+exports.removePersonById = function(res, id){
+    personDao.removePersonById(res, id);
+}

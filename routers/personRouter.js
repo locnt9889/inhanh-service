@@ -23,6 +23,11 @@ router.get('/findbyid', function(req, res) {
     personService.findPersonById(res,id);
 });
 
+router.get('/removebyid', function(req, res) {
+    var id = req.param("id");
+    personService.removePersonById(res,id);
+});
+
 router.get('/chat', function(req, res) {
     res.sendfile("routers/chat.html");
 });

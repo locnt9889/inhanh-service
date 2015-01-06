@@ -125,6 +125,44 @@ exports.findById = function(res, tableName,id){
     });
 }
 
+//remove by id
+exports.removeById = function(res, tableName,id){
+    Mongo.connect(mongoURL, function(err, conn) {
+        var mongoResponse = new MongoResponse();
+        if(err) {
+            console.log("log removeById connection error : " + err);
+            mongoResponse.errorsRes = err;
+            mongoResponse.errorsMessage = "Connection is fail.";
+            mongoResponse.statusErrorRes = 1;
+            res.send(mongoResponse);
+            return;
+        }else {
+            console.log("log removeById connection");
+            var collection = conn.collection(tableName);
+            var objectId = new ObjectID(id);
+            // list messages
+            collection.remove({"_id" : objectId}, function (err, rowNumber) {
+                if(err) {
+                    console.log("log removeById error : " + err);
+                    mongoResponse.errorsRes = err;
+                    mongoResponse.errorsMessage = "Remove is fail.";
+                    mongoResponse.statusErrorRes = 1;
+                }else if(!rowNumber || rowNumber == 0){
+                    console.log("log removeById no result");
+                    mongoResponse.result = rowNumber;
+                    mongoResponse.errorsMessage = "No has result for remove!";
+                    mongoResponse.statusErrorRes = 2;
+                }else {
+                    console.log("log removeById success");
+                    mongoResponse.result = rowNumber;
+                    mongoResponse.statusErrorRes = 0;
+                }
+                res.send(mongoResponse);
+            });
+        }
+    });
+}
+
 /*person dto ajax*/
 function MongoResponse(){
     this.errorsRes = {};
