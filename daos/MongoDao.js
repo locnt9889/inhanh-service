@@ -4,6 +4,7 @@
 var Mongo = require('mongodb');
 var ObjectID = Mongo.ObjectID;
 var mongoURL = "mongodb://adminservice:qwe123qwe@ds041190.mongolab.com:41190/IbmCloud_555lh56k_47mu49rp";
+var commonService = require('../services/commonService');
 
 //add new
 exports.addNew = function(res, tableName, modelObject){
@@ -91,9 +92,22 @@ exports.findAll = function(res, tableName){
 exports.findById = function(res, tableName,id){
     var mongoResponse = new MongoResponse();
     var objectId = "";
-    try{
+    /*try{
         objectId = new ObjectID(id);
     }catch (e){
+        console.log("log findById no result");
+        mongoResponse.result = 0;
+        mongoResponse.errorsRes = e;
+        mongoResponse.errorsMessage = "No has result!";
+        mongoResponse.statusErrorRes = 2;
+        res.send(mongoResponse);
+        return;
+    }*/
+
+
+    if(commonService.isValidObjectID(id)){
+        objectId = new ObjectID(id);
+    } else{
         console.log("log findById no result");
         mongoResponse.result = 0;
         mongoResponse.errorsRes = e;
@@ -153,9 +167,21 @@ exports.findById = function(res, tableName,id){
 exports.removeById = function(res, tableName,id){
     var mongoResponse = new MongoResponse();
     var objectId = "";
-    try{
+    /*try{
         objectId = new ObjectID(id);
     }catch (e){
+        console.log("log removeById no result");
+        mongoResponse.result = 0;
+        mongoResponse.errorsRes = e;
+        mongoResponse.errorsMessage = "No has result for remove!";
+        mongoResponse.statusErrorRes = 2;
+        res.send(mongoResponse);
+        return;
+    }*/
+
+    if(commonService.isValidObjectID(id)){
+        objectId = new ObjectID(id);
+    }else{
         console.log("log removeById no result");
         mongoResponse.result = 0;
         mongoResponse.errorsRes = e;
