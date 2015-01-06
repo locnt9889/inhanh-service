@@ -19,12 +19,12 @@ router.get('/findall', function(req, res) {
 });
 
 router.get('/findbyid', function(req, res) {
-    var id = req.param("id");
+    var id = req.param("id") || "";
     personService.findPersonById(res,id);
 });
 
 router.get('/removebyid', function(req, res) {
-    var id = req.param("id");
+    var id = req.param("id") || "";
     personService.removePersonById(res,id);
 });
 

@@ -89,8 +89,21 @@ exports.findAll = function(res, tableName){
 
 //find by id
 exports.findById = function(res, tableName,id){
+    var mongoResponse = new MongoResponse();
+    var objectId = "";
+    try{
+        objectId = new ObjectID(id);
+    }catch (e){
+        console.log("log removeById no result");
+        mongoResponse.result = 0;
+        mongoResponse.errorsRes = e;
+        mongoResponse.errorsMessage = "No has result for remove!";
+        mongoResponse.statusErrorRes = 2;
+        res.send(mongoResponse);
+        return;
+    }
+
     Mongo.connect(mongoURL, function(err, conn) {
-        var mongoResponse = new MongoResponse();
         if(err) {
             console.log("log findById connection error : " + err);
             mongoResponse.errorsRes = err;
@@ -101,9 +114,20 @@ exports.findById = function(res, tableName,id){
         }else {
             console.log("log findById connection");
             var collection = conn.collection(tableName);
-            var objectId = new ObjectID(id);
+            var objectId = "";
+            try{
+                objectId = new ObjectID(id);
+            }catch (e){
+                console.log("log removeById no result");
+                mongoResponse.result = 0;
+                mongoResponse.errorsRes = e;
+                mongoResponse.errorsMessage = "No has result for remove!";
+                mongoResponse.statusErrorRes = 2;
+                res.send(mongoResponse);
+                return;
+            }
 
-            // list messages
+            // find one
             collection.findOne({"_id" : objectId}, function (err, result) {
                 if(err) {
                     console.log("log findById error : " + err);
@@ -127,8 +151,21 @@ exports.findById = function(res, tableName,id){
 
 //remove by id
 exports.removeById = function(res, tableName,id){
+    var mongoResponse = new MongoResponse();
+    var objectId = "";
+    try{
+        objectId = new ObjectID(id);
+    }catch (e){
+        console.log("log removeById no result");
+        mongoResponse.result = 0;
+        mongoResponse.errorsRes = e;
+        mongoResponse.errorsMessage = "No has result for remove!";
+        mongoResponse.statusErrorRes = 2;
+        res.send(mongoResponse);
+        return;
+    }
+
     Mongo.connect(mongoURL, function(err, conn) {
-        var mongoResponse = new MongoResponse();
         if(err) {
             console.log("log removeById connection error : " + err);
             mongoResponse.errorsRes = err;
@@ -139,20 +176,20 @@ exports.removeById = function(res, tableName,id){
         }else {
             console.log("log removeById connection");
             var collection = conn.collection(tableName);
-            var objectId = new ObjectID(id);
-            // list messages
-            collection.remove({"_id" : objectId}, function (err, rowNumber) {
-                if(err) {
+
+            // remove
+            collection.remove({"_id": objectId}, function (err, rowNumber) {
+                if (err) {
                     console.log("log removeById error : " + err);
                     mongoResponse.errorsRes = err;
                     mongoResponse.errorsMessage = "Remove is fail.";
                     mongoResponse.statusErrorRes = 1;
-                }else if(!rowNumber || rowNumber == 0){
+                } else if (!rowNumber || rowNumber == 0) {
                     console.log("log removeById no result");
                     mongoResponse.result = rowNumber;
                     mongoResponse.errorsMessage = "No has result for remove!";
                     mongoResponse.statusErrorRes = 2;
-                }else {
+                } else {
                     console.log("log removeById success");
                     mongoResponse.result = rowNumber;
                     mongoResponse.statusErrorRes = 0;
