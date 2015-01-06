@@ -94,10 +94,10 @@ exports.findById = function(res, tableName,id){
     try{
         objectId = new ObjectID(id);
     }catch (e){
-        console.log("log removeById no result");
+        console.log("log findById no result");
         mongoResponse.result = 0;
         mongoResponse.errorsRes = e;
-        mongoResponse.errorsMessage = "No has result for remove!";
+        mongoResponse.errorsMessage = "No has result!";
         mongoResponse.statusErrorRes = 2;
         res.send(mongoResponse);
         return;
