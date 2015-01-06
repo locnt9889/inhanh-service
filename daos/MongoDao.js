@@ -110,7 +110,6 @@ exports.findById = function(res, tableName,id){
     } else{
         console.log("log findById no result");
         mongoResponse.result = 0;
-        mongoResponse.errorsRes = e;
         mongoResponse.errorsMessage = "No has result!";
         mongoResponse.statusErrorRes = 2;
         res.send(mongoResponse);
@@ -128,18 +127,6 @@ exports.findById = function(res, tableName,id){
         }else {
             console.log("log findById connection");
             var collection = conn.collection(tableName);
-            var objectId = "";
-            try{
-                objectId = new ObjectID(id);
-            }catch (e){
-                console.log("log removeById no result");
-                mongoResponse.result = 0;
-                mongoResponse.errorsRes = e;
-                mongoResponse.errorsMessage = "No has result for remove!";
-                mongoResponse.statusErrorRes = 2;
-                res.send(mongoResponse);
-                return;
-            }
 
             // find one
             collection.findOne({"_id" : objectId}, function (err, result) {
@@ -184,7 +171,6 @@ exports.removeById = function(res, tableName,id){
     }else{
         console.log("log removeById no result");
         mongoResponse.result = 0;
-        mongoResponse.errorsRes = e;
         mongoResponse.errorsMessage = "No has result for remove!";
         mongoResponse.statusErrorRes = 2;
         res.send(mongoResponse);
