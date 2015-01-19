@@ -6,7 +6,7 @@
 function MysqlResponse(){
     this.errorsObject = {};
     this.errorsMessage = "";
-    this.result = {};
+    this.results = {};
     this.statusErrorCode = 0;
 };
 

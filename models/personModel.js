@@ -3,11 +3,12 @@
  */
 
 var moment = require('moment');
+var constant = require('../public/constant');
 
 function Person(fullname,email,active,datecreate){
     this.fullname = "";
     this.email = "";
-    this.datecreate = moment().format('MMMM Do YYYY, h:mm:ss a');
+    this.datecreate = moment().format(constant.formatTime);
     this.active = true;
 
     if(fullname != undefined){
