@@ -18,8 +18,8 @@
 	"repository": {},
 	"keywords": [
 		"node",
-		"heroku",
 		"express",
-		"mongodb"
+		"mongodb",
+	  	"mysql"
 	]
 }
