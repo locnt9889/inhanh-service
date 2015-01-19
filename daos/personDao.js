@@ -2,9 +2,10 @@
  * Created by locnt9889 on 12/25/2014.
  */
 
-var mongoDao = require("../daos/MongoDao");
-var TableNamePerson = "person";
 
+var TableNamePerson = "person";
+/*mongodb*/
+/*var mongoDao = require("../daos/MongoDao");
 exports.addNewPerson = function(res, newPersonModel){
     mongoDao.addNew(res, TableNamePerson, newPersonModel);
 }
@@ -19,4 +20,25 @@ exports.findPersonById = function(res, id){
 
 exports.removePersonById = function(res, id){
     mongoDao.removeById(res, TableNamePerson, id);
+}*/
+/*mongodb*/
+
+/*mysql*/
+var mongoDao = require("../daos/MongoDao");
+var mysqlDao = require("../daos/MysqlDao");
+exports.addNewPerson = function(res, newPersonModel){
+    mongoDao.addNew(res, TableNamePerson, newPersonModel);
 }
+
+exports.findAllPerson = function(res){
+    mysqlDao.findAll(res, TableNamePerson);
+}
+
+exports.findPersonById = function(res, id){
+    mongoDao.findById(res, TableNamePerson, id);
+}
+
+exports.removePersonById = function(res, id){
+    mongoDao.removeById(res, TableNamePerson, id);
+}
+/*mysql*/
