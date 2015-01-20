@@ -24,3 +24,7 @@ exports.mysqlInfo = {
 /*constant*/
 exports.formatTime = "YYYY-MM-DD HH:mm:ss";
 exports.formatDate = "YYYY-MM-DD";
+
+exports.sql_script = {
+    sql_findAll_isactive : "SELECT * FROM #table WHERE isactive = 1"
+}

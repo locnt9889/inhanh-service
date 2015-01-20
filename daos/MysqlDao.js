@@ -3,13 +3,30 @@
  */
 var mysql = require('mysql');
 var moment = require('moment');
+
 var constant = require('../public/constant');
-var commonService = require('../services/commonService');
+var message = require('../messages/en').inhanhMessage;
+var mysqlHelper = require('./MysqlHelper');
+
 var mysqlResponseModel = require('../models/mysqlResponseModel');
 
 //add new
 exports.addNew = function(res, tableName, modelObject){
+    console.log("-----" + moment().format(constant.formatTime) + " - API findAll : " + tableName);
+    var responseModel = new mysqlResponseModel.MysqlResponse();
+    var connection = mysql.createConnection(constant.mysqlInfo);
 
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ addNew connect error - " + err)
+            responseModel = mysqlHelper.errorConnection(res, err,connection);
+        }else{
+            console.log(" +++ addNew connect success");
+            //connection.insert(modelObject, )
+            //todo
+            connection.end();
+        }
+    });
 }
 
 //find all
@@ -17,47 +34,16 @@ exports.findAll = function(res, tableName){
     console.log("-----" + moment().format(constant.formatTime) + " - API findAll : " + tableName);
     var responseModel = new mysqlResponseModel.MysqlResponse();
     var connection = mysql.createConnection(constant.mysqlInfo);
-    var sql_findall = "SELECT * from " + tableName;
+    var sql_findall = constant.sql_script.sql_findAll_isactive.replace('#table', tableName);
 
     connection.connect(function(err,connect){
         if(err){
-            console.log(" +++ findAll connect error - " + err);
-            responseModel.errorsObject = {
-                code : err.code,
-                errno : err.errno,
-                message : err.message,
-                sqlState : err.sqlState
-            };
-            responseModel.errorsMessage = "Connection to Database is failure!";
-            responseModel.results = {};
-            responseModel.statusErrorCode = 100;
-
-            connection.end();
-            res.send(responseModel);
+            console.log(" +++ connect error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
         }else{
             console.log(" +++ findAll connect success");
-            connection.query(sql_findall, function(err, rows, fields) {
-                if (err) {
-                    console.log(" +++ findAll query error - " + err);
-                    responseModel.errorsObject = {
-                        code : err.code,
-                        errno : err.errno,
-                        message : err.message,
-                        sqlState : err.sqlState
-                    };
-                    responseModel.errorsMessage = "FindAll query is failure!";
-                    responseModel.results = {};
-                    responseModel.statusErrorCode = 1;
-
-                    res.send(responseModel);
-                }else {
-                    console.log(" +++ findAll query success - " + JSON.stringify({results : rows}));
-                    responseModel.results = rows;
-                    responseModel.statusErrorCode = 0;
-                    res.send(responseModel);
-                }
-            });
-            connection.end();
+            mysqlHelper.query(res, message.functionName.findAll, connection, sql_findall, responseModel);
         }
-    })
+    });
 }
+
