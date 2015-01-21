@@ -4,34 +4,18 @@
 
 var moment = require('moment');
 
-function Person(person_id,person_name,email,isactive,created_date){
+function Person(){
     this.person_id = 0;
+
     this.person_name = "";
     this.email = "";
-    this.created_date = moment().format('MMMM Do YYYY, h:mm:ss a');
     this.isactive = true;
 
-    if(person_id != undefined){
-        this.person_id = person_id;
-    }
-
-    if(person_name != undefined){
-        this.person_name = person_name;
-    }
-
-    if(email != undefined){
-        this.email = email;
-    }
-
-    if(created_date != undefined){
-        this.created_date = created_date;
-    }
-
-    if(isactive != undefined){
-        this.isactive = isactive;
-    }
+    this.created_date = new Date();
 }
 
-exports.newPerson = function(person_id,person_name,email,isactive){
-    return new Person(person_id,person_name,email,isactive);
-};
+/*exports.newPerson = function(person_id,person_name,email,isactive,created_date){
+    return new Person(person_id,person_name,email,isactive,created_date);
+};*/
+
+exports.Person = Person;

@@ -5,7 +5,8 @@
 exports.inhanhMessage = {
     functionName: {
         addNew : "Add new",
-        findAll : "Find all"
+        findAll : "Find all",
+        findById : "Find by id"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "#1 is failure!",

@@ -21,9 +21,9 @@ function errorConnection(res, err, connection){
 }
 
 //query
-function query(res, actionName, connection, sql_query, responseModel){
+function query(res, actionName, connection, sql_query, sql_param, responseModel){
     var responseModel = new mysqlResponseModel.MysqlResponse();
-    connection.query(sql_query, function(err, rows, fields) {
+    connection.query(sql_query, sql_param, function(err, rows, fields) {
         if (err) {
             console.log(" +++ query error - " + err);
             responseModel.errorsObject = {
@@ -35,7 +35,6 @@ function query(res, actionName, connection, sql_query, responseModel){
             responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
             responseModel.results = {};
             responseModel.statusErrorCode = 1;
-
             res.send(responseModel);
         }else {
             console.log(" +++ query success - " + JSON.stringify({results : rows}));
@@ -46,7 +45,6 @@ function query(res, actionName, connection, sql_query, responseModel){
     });
     connection.end();
 }
-
 
 /*Exports method*/
 exports.errorConnection = errorConnection;

@@ -3,29 +3,30 @@
  */
 
 var express = require('express');
-var personModel = require("../models/personModel");
-var personService = require("../services/personServices");
 var router = express.Router();
 
+var personService = require("../services/personServices");
+var moment = require('moment');
+var constant = require('../public/constant');
+
 router.get('/add', function(req, res) {
-    var newPersonjson = req.param("newPerson");
-    var newPersonreq = JSON.parse(newPersonjson);
-    var newPerson = personModel.newPerson(newPersonreq.fullname, newPersonreq.email, newPersonreq.active);
-    personService.addNewPerson(res, newPerson);
+    console.log("@@@@@INHANH : ----- " + moment().format(constant.formatTime) + " -----API : person/add");
+    personService.addNewPerson(req, res);
 });
 
 router.get('/findall', function(req, res) {
-    personService.findAllPerson(res);
+    console.log("@@@@@INHANH : ----- " + moment().format(constant.formatTime) + " -----API : person/findall");
+    personService.findAllPerson(req, res);
 });
 
 router.get('/findbyid', function(req, res) {
-    var id = req.param("id") || "";
-    personService.findPersonById(res,id);
+    console.log("@@@@@INHANH : ----- " + moment().format(constant.formatTime) + " -----API : person/findbyid");
+    personService.findPersonById(req, res);
 });
 
 router.get('/removebyid', function(req, res) {
-    var id = req.param("id") || "";
-    personService.removePersonById(res,id);
+    console.log("@@@@@INHANH : ----- " + moment().format(constant.formatTime) + " -----API : person/removebyid");
+    personService.removePersonById(req,res);
 });
 
 module.exports = router;
