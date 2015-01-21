@@ -8,7 +8,7 @@ var mysqlDao = require("../daos/MysqlDao");
 var constant = require('../public/constant');
 var TableNamePerson = constant.table_name.person;
 
-    exports.addNewPerson = function(res, newPersonModel){
+exports.addNewPerson = function(res, newPersonModel){
     //mongoDao.addNew(res, TableNamePerson, newPersonModel);
     mysqlDao.addNew(res, TableNamePerson, newPersonModel);
 }
@@ -26,4 +26,8 @@ exports.findPersonById = function(res, id){
 exports.removePersonById = function(res, id){
     //mongoDao.removeById(res, TableNamePerson, id);
     mysqlDao.removeById(res, TableNamePerson, id);
+}
+
+exports.updatePersonById = function(res, updatePerson, updateId){
+    mysqlDao.updateById(res, TableNamePerson, updatePerson, updateId);
 }

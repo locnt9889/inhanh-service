@@ -9,7 +9,7 @@ function Person(){
 
     this.person_name = "";
     this.email = "";
-    this.isactive = true;
+    this.isactive = 1;
 
     this.created_date = new Date();
 }

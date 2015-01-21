@@ -29,6 +29,7 @@ exports.sql_script = {
     sql_findAll_isactive : "SELECT * FROM #table WHERE isactive = 1",
     sql_findById_isactive : "SELECT * FROM #table WHERE isactive = 1 AND person_id = ?",
     sql_removeById : "UPDATE #table SET isactive = 0 WHERE person_id = ?",
+    sql_updateById : "UPDATE #table SET ? WHERE person_id = ?",
     sql_insert : "INSERT INTO #table SET ?"
 }
 

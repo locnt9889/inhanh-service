@@ -33,3 +33,11 @@ exports.removePersonById = function(req, res){
 
     personDao.removePersonById(res, paramId);
 }
+
+exports.updatePersonById = function(req, res){
+    var updateId = req.param("id");
+    var updatePersonjson = req.param("updateperson");
+    var updatePersonreq = JSON.parse(updatePersonjson);
+
+    personDao.updatePersonById(res, updatePersonreq, updateId);
+}
