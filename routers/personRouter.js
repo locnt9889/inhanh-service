@@ -5,7 +5,7 @@
 var express = require('express');
 var router = express.Router();
 
-var personService = require("../services/personServices");
+var personService = require("../services/personService");
 var moment = require('moment');
 var constant = require('../public/constant');
 

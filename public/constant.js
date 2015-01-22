@@ -25,14 +25,23 @@ exports.mysqlInfo = {
 exports.formatTime = "YYYY-MM-DD HH:mm:ss";
 exports.formatDate = "YYYY-MM-DD";
 
+exports.account_type = {
+    admin : "ADMIN",
+    shipper : "SHIPPER",
+    shopper : "SHOPPER"
+}
+
 exports.sql_script = {
     sql_findAll_isactive : "SELECT * FROM #table WHERE isactive = 1",
-    sql_findById_isactive : "SELECT * FROM #table WHERE isactive = 1 AND person_id = ?",
-    sql_removeById : "UPDATE #table SET isactive = 0 WHERE person_id = ?",
-    sql_updateById : "UPDATE #table SET ? WHERE person_id = ?",
-    sql_insert : "INSERT INTO #table SET ?"
+    sql_findById_isactive : "SELECT * FROM #table WHERE isactive = 1 AND #id = ?",
+    sql_removeById : "UPDATE #table SET isactive = 0 WHERE #id = ?",
+    sql_updateById : "UPDATE #table SET ? WHERE #id = ?",
+    sql_insert : "INSERT INTO #table SET ?",
+    sql_check_email_exist : "SELECT id FROM Account WHERE email = ?",
+    sql_check_username_exist : "SELECT id FROM Account WHERE username = ?"
 }
 
 exports.table_name = {
-    person : "Person"
+    person : "Person",
+    account : "Account"
 }

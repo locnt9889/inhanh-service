@@ -6,6 +6,7 @@ var path = require('path');
 
 //require router
 var persons = require('./routers/personRouter');
+var homes = require('./routers/homeRouter');
 
 var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
@@ -15,6 +16,7 @@ app.get('/', function (req, res) {
 	res.send("A sample webservice nodejs-mongodb app for Bluemix");
 });
 app.use('/person', persons);
+app.use('/home', homes);
 
 // Start server
 app.set('port', (process.env.PORT || 5000));

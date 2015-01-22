@@ -66,10 +66,10 @@ exports.findAll = function(res, tableName){
  * @ param : tableName - table name
  * @ param : id - id of object
  */
-exports.findById = function(res, tableName,id){
+exports.findById = function(res, tableName, feildNameId, id){
     console.log(" +++ " + "DAO find by id "+ id +" : " + tableName);
     var connection = mysql.createConnection(constant.mysqlInfo);
-    var sql_findbyid = constant.sql_script.sql_findById_isactive.replace('#table', tableName);
+    var sql_findbyid = constant.sql_script.sql_findById_isactive.replace('#table', tableName).replace("#id",feildNameId);
     var sql_param = [id];
     connection.connect(function(err,connect){
         if(err){
@@ -90,10 +90,10 @@ exports.findById = function(res, tableName,id){
  * @ param : tableName - table name
  * @ param : id - id of object
  */
-exports.removeById = function(res, tableName,id){
+exports.removeById = function(res, tableName, feildNameId, id){
     console.log(" +++ " + "DAO remove by id "+ id +" : " + tableName);
     var connection = mysql.createConnection(constant.mysqlInfo);
-    var sql_removebyid = constant.sql_script.sql_removeById.replace('#table', tableName);
+    var sql_removebyid = constant.sql_script.sql_removeById.replace('#table', tableName).replace("#id",feildNameId);
     var sql_param = [id];
     connection.connect(function(err,connect){
         if(err){
@@ -115,10 +115,10 @@ exports.removeById = function(res, tableName,id){
  * @ param : updatePerson - object have attribute changed
  * @ param : id - id of object
  */
-exports.updateById = function(res, tableName, updatePerson, updateId){
+exports.updateById = function(res, tableName, fieldNameId, updatePerson, updateId){
     console.log(" +++ " + "DAO update by id "+ updateId +" : " + tableName);
     var connection = mysql.createConnection(constant.mysqlInfo);
-    var sql_updateById = constant.sql_script.sql_updateById.replace('#table', tableName);
+    var sql_updateById = constant.sql_script.sql_updateById.replace('#table', tableName).replace("#id",feildNameId);
     var sql_param = [updatePerson , updateId];
     connection.connect(function(err,connect){
         if(err){
