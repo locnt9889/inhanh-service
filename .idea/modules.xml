@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../nodejs-base-service/.idea/nodejs-base-service.iml" filepath="$PROJECT_DIR$/../nodejs-base-service/.idea/nodejs-base-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../inhanh-service/.idea/inhanh-service.iml" filepath="$PROJECT_DIR$/../inhanh-service/.idea/inhanh-service.iml" />
     </modules>
   </component>
 </project>
