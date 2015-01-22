@@ -5,7 +5,7 @@
 var mysql = require('mysql');
 
 var constant = require('../public/constant');
-var message = require('../messages/en').inhanhMessage;
+var message = require('../messages/en').contentMessage;
 var mysqlHelper = require('./MysqlHelper');
 
 var mysqlResponseModel = require('../models/mysqlResponseModel');

@@ -2,7 +2,7 @@
  * Created by locnt9889 on 1/20/2015.
  */
 
-exports.inhanhMessage = {
+exports.contentMessage = {
     functionName: {
         addNew : "Add new",
         findAll : "Find all",

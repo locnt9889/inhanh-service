@@ -20,7 +20,7 @@ var constant = require('../public/constant');
  *                      }
  */
 router.get('/add', function(req, res) {
-    console.log("@@@@@INHANH : ----- " + moment().format(constant.formatTime) + " -----API : person/add");
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : person/add");
     personService.addNewPerson(req, res);
 });
 
@@ -31,7 +31,7 @@ router.get('/add', function(req, res) {
  * @ param :
  */
 router.get('/findall', function(req, res) {
-    console.log("@@@@@INHANH : ----- " + moment().format(constant.formatTime) + " -----API : person/findall");
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : person/findall");
     personService.findAllPerson(req, res);
 });
 
@@ -42,7 +42,7 @@ router.get('/findall', function(req, res) {
  * @ param : id = 1
  */
 router.get('/findbyid', function(req, res) {
-    console.log("@@@@@INHANH : ----- " + moment().format(constant.formatTime) + " -----API : person/findbyid");
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : person/findbyid");
     personService.findPersonById(req, res);
 });
 
@@ -53,7 +53,7 @@ router.get('/findbyid', function(req, res) {
  * @ param : id = 1
  */
 router.get('/removebyid', function(req, res) {
-    console.log("@@@@@INHANH : ----- " + moment().format(constant.formatTime) + " -----API : person/removebyid");
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : person/removebyid");
     personService.removePersonById(req,res);
 });
 
@@ -68,7 +68,7 @@ router.get('/removebyid', function(req, res) {
  * @ param : id = 1
  */
 router.get('/updatebyid', function(req, res) {
-    console.log("@@@@@INHANH : ----- " + moment().format(constant.formatTime) + " -----API : person/updatebyid");
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : person/updatebyid");
     personService.updatePersonById(req,res);
 });
 

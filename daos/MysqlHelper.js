@@ -2,7 +2,7 @@
  * Created by locnt9889 on 1/20/2015.
  */
 var mysqlResponseModel = require('../models/mysqlResponseModel');
-var message = require('../messages/en').inhanhMessage;
+var message = require('../messages/en').contentMessage;
 
 /*
  * @ name : errorConnection
