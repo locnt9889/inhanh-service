@@ -3,6 +3,7 @@
  */
 var mysqlResponseModel = require('../models/mysqlResponseModel');
 var message = require('../messages/en').contentMessage;
+var constant = require('../public/constant');
 
 /*
  * @ name : errorConnection
@@ -22,7 +23,7 @@ function errorConnection(res, err, connection){
     };
     responseModel.errorsMessage = message.errorConnectionDB;
     responseModel.results = {};
-    responseModel.statusErrorCode = 100;
+    responseModel.statusErrorCode = constant.error_code.error_connection_db;
 
     connection.end();
     res.send(responseModel);
@@ -51,12 +52,12 @@ function query(res, actionName, connection, sql_query, sql_param){
             };
             responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
             responseModel.results = {};
-            responseModel.statusErrorCode = 1;
+            responseModel.statusErrorCode = constant.error_code.error_system_query;
             res.send(responseModel);
         }else {
             console.log(" +++ query success - " + JSON.stringify({results : rows}));
             responseModel.results = rows;
-            responseModel.statusErrorCode = 0;
+            responseModel.statusErrorCode = constant.error_code.success;
             res.send(responseModel);
         }
     });

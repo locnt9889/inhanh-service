@@ -54,7 +54,7 @@ exports.register = function(res, newAccount){
                     };
                     responseModel.errorsMessage = message.errorQuery.replace('#1', actionName);
                     responseModel.results = {};
-                    responseModel.statusErrorCode = 1;
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
                     connection.end();
                     res.send(responseModel);
                 } else {
@@ -63,7 +63,7 @@ exports.register = function(res, newAccount){
                         responseModel.errorsObject = {};
                         responseModel.errorsMessage = message.registerUsernameExist;
                         responseModel.results = {};
-                        responseModel.statusErrorCode = 2;
+                        responseModel.statusErrorCode = constant.error_code.error_check_register_username;
                         connection.end();
                         res.send(responseModel);
                     }else {
@@ -80,7 +80,7 @@ exports.register = function(res, newAccount){
                                 };
                                 responseModel.errorsMessage = message.errorQuery.replace('#1', actionName);
                                 responseModel.results = {};
-                                responseModel.statusErrorCode = 1;
+                                responseModel.statusErrorCode = constant.error_code.error_system_query;
                                 connection.end();
                                 res.send(responseModel);
                             } else {
@@ -89,7 +89,7 @@ exports.register = function(res, newAccount){
                                     responseModel.errorsObject = {};
                                     responseModel.errorsMessage = message.registerEmailExist;
                                     responseModel.results = {};
-                                    responseModel.statusErrorCode = 2;
+                                    responseModel.statusErrorCode = constant.error_code.error_check_register_email;
                                     connection.end();
                                     res.send(responseModel);
                                 } else {
@@ -106,12 +106,12 @@ exports.register = function(res, newAccount){
                                             };
                                             responseModel.errorsMessage = message.errorQuery.replace('#1', actionName);
                                             responseModel.results = {};
-                                            responseModel.statusErrorCode = 1;
+                                            responseModel.statusErrorCode = constant.error_code.error_system_query;
                                             res.send(responseModel);
                                         } else {
                                             console.log(" +++ register success - " + JSON.stringify({results: rows}));
                                             responseModel.results = rows;
-                                            responseModel.statusErrorCode = 0;
+                                            responseModel.statusErrorCode = constant.error_code.success;
                                             res.send(responseModel);
                                         }
                                     });
@@ -159,7 +159,7 @@ exports.findAccountById = function(res, id){
                     };
                     responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
                     responseModel.results = {};
-                    responseModel.statusErrorCode = 1;
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
                     res.send(responseModel);
                 }else {
                     if(rows.length > 0){
@@ -167,7 +167,7 @@ exports.findAccountById = function(res, id){
                     }
                     console.log(" +++ query success - " + JSON.stringify({results : rows}));
                     responseModel.results = rows;
-                    responseModel.statusErrorCode = 0;
+                    responseModel.statusErrorCode = constant.error_code.success;
                     res.send(responseModel);
                 }
             });

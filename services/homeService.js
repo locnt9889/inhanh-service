@@ -17,6 +17,7 @@ exports.register = function(req, res){
     newAccount.birthday = newPersonreq.birthday;
     newAccount.idcard = newPersonreq.idcard;
     newAccount.idcard_date = newPersonreq.idcard_date;
+    newAccount.idcard_address = newPersonreq.idcard_address;
     newAccount.type = newPersonreq.type;
     newAccount.address = newPersonreq.address;
     newAccount.city_code = newPersonreq.city_code;

@@ -31,6 +31,15 @@ exports.account_type = {
     shopper : "SHOPPER"
 }
 
+exports.error_code = {
+    success : 0,
+    error_system_query : 1,
+    error_check_register_email : 2,
+    error_check_register_username : 3,
+    error_connection_db : 100
+
+}
+
 exports.sql_script = {
     sql_findAll_isactive : "SELECT * FROM #table WHERE isactive = 1",
     sql_findById_isactive : "SELECT * FROM #table WHERE isactive = 1 AND #id = ?",

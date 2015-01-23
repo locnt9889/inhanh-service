@@ -13,6 +13,7 @@ function Account(){
     this.birthday = new Date();
     this.idcard = "";
     this.idcard_date = new Date();
+    this.idcard_address = "";
     this.type = "SHIPPER";
     this.address = "";
     this.city_code = "";
