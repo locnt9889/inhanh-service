@@ -2,8 +2,6 @@
  * Created by locnt9889 on 12/25/2014.
  */
 
-var moment = require('moment');
-
 function Account(){
     this.id = 0;
     this.username = "";

@@ -7,8 +7,9 @@ var mysqlDao = require("../daos/MysqlDao");
 var mysqlHelper = require("../daos/MysqlHelper");
 var mysqlResponseModel = require('../models/mysqlResponseModel');
 var message = require('../messages/en').contentMessage;
-
 var constant = require('../public/constant');
+var commonService = require('../services/commonService');
+var accessTokenDao = require('./accessTokenDao');
 var TableNameAccount = constant.table_name.account;
 var fieldNameId = "id";
 
@@ -26,10 +27,10 @@ exports.register = function(res, newAccount){
     var sql_register = constant.sql_script.sql_insert.replace('#table', TableNameAccount);
     var sql_param_register = newAccount;
 
-    var sql_check_email_exist = constant.sql_script.sql_check_email_exist;
+    var sql_check_email_exist = constant.sql_script_home.sql_check_email_exist;
     var sql_param_check_email_exist = [newAccount.email];
 
-    var sql_check_username_exist = constant.sql_script.sql_check_username_exist;
+    var sql_check_username_exist = constant.sql_script_home.sql_check_username_exist;
     var sql_param_check_username_exist = [newAccount.username];
 
     var actionName = message.functionName.register;
@@ -127,11 +128,69 @@ exports.register = function(res, newAccount){
 }
 
 /*
- * @ name : findAccountById
- * @ description : find object by id with isactive == 1
+ * @ name : login
+ * @ description : login with isactive == 1
  * @ authen : locnt
  * @ param : res - response to client
  * @ param : tableName - table name
+ * @ param : id - id of object
+ */
+exports.login = function(res, username, password, device_token){
+    console.log(" +++ " + "DAO Login ");
+    var connection = mysql.createConnection(constant.mysqlInfo);
+    var sql_check_login = constant.sql_script_home.sql_check_login;
+    var sql_param = [username, password];
+    var actionName = message.functionName.findById;
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ Login connect error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
+        }else{
+            console.log(" +++ Login connect success");
+            var responseModel = new mysqlResponseModel.MysqlResponse();
+            connection.query(sql_check_login, sql_param, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    connection.end();
+                    res.send(responseModel);
+                }else if(rows.length == 0){
+                    console.log(" +++ login fail ");
+                    responseModel.errorsMessage = message.login_fail;
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_check_login;
+                    connection.end();
+                    res.send(responseModel);
+                }else {
+                    console.log(" +++ query success - " + JSON.stringify({results : rows}));
+                    var access_token = commonService.generateAccessToken();
+                    var userId = rows[0].id;
+                    responseModel.results = {id : userId, "access_token" : access_token};
+                    responseModel.statusErrorCode = constant.error_code.success;
+
+                    //insert access token
+                    accessTokenDao.insertAccessToken(userId, device_token, access_token);
+                    connection.end();
+                    res.send(responseModel);
+                }
+            });
+        }
+    });
+}
+
+/*
+ * @ name : findAccountById
+ * @ description : find object by id with isactive == 1
+ * @ authen : locnt
  * @ param : id - id of object
  */
 exports.findAccountById = function(res, id){

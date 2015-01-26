@@ -30,6 +30,14 @@ exports.register = function(req, res){
     homeDao.register(res, newAccount);
 }
 
+exports.login = function(req, res){
+    var username = req.query.username;
+    var password = req.query.password;
+    var device_token = req.query.device_token;
+
+    homeDao.login(res, username, password, device_token);
+}
+
 exports.updateProfile = function(req, res){
     var id = req.param("id");
     var updateAcountJson = req.param("updateaccount");

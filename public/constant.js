@@ -38,10 +38,12 @@ exports.profileAction = {
 
 exports.error_code = {
     success : 0,
+    error_connection_db : 100,
     error_system_query : 1,
+
     error_check_register_email : 2,
     error_check_register_username : 3,
-    error_connection_db : 100
+    error_check_login : 4
 
 }
 
@@ -51,8 +53,13 @@ exports.sql_script = {
     sql_removeById : "UPDATE #table SET isactive = 0 WHERE #id = ?",
     sql_updateById : "UPDATE #table SET ? WHERE #id = ?",
     sql_insert : "INSERT INTO #table SET ?",
+}
+
+exports.sql_script_home = {
     sql_check_email_exist : "SELECT id FROM Account WHERE email = ?",
-    sql_check_username_exist : "SELECT id FROM Account WHERE username = ?"
+    sql_check_username_exist : "SELECT id FROM Account WHERE username = ?",
+    sql_check_login : "SELECT id FROM Account WHERE username = ? AND password = ? AND isactive = 1",
+    sql_remove_all_token_access_by_user_and_device : "UPDATE access_token SET isactive = 0 WHERE user_id = ? AND device_token = ?"
 }
 
 exports.table_name = {
