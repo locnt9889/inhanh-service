@@ -31,6 +31,11 @@ exports.account_type = {
     shopper : "SHOPPER"
 }
 
+exports.profileAction = {
+    register : "REGISTER",
+    update : "UPDATE"
+}
+
 exports.error_code = {
     success : 0,
     error_system_query : 1,

@@ -7,7 +7,8 @@ exports.contentMessage = {
         register : "Register",
         addNew : "Add new",
         findAll : "Find all",
-        findById : "Find by id"
+        findById : "Find by id",
+        updateById : "Update by id"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "#1 is failure!",

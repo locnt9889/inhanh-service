@@ -24,6 +24,18 @@ router.get('/register', function(req, res) {
 });
 
 /*
+ * @ name : home/updateprofile
+ * @ description : update profile id
+ * @ authen : locnt
+ * @ param : updateaccount = json string
+ * @ param : id = 1
+ */
+router.get('/updateprofile', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/updateprofile");
+    homeService.updateProfile(req, res);
+});
+
+/*
  * @ name : home/finduserbyid
  * @ description : find user by id
  * @ authen : locnt

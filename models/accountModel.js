@@ -10,9 +10,9 @@ function Account(){
     this.password = "";
     this.email = "";
     this.phone = "";
-    this.birthday = new Date();
+    this.birthday = "";
     this.idcard = "";
-    this.idcard_date = new Date();
+    this.idcard_date = "";
     this.idcard_address = "";
     this.type = "SHIPPER";
     this.address = "";

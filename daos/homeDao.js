@@ -176,3 +176,13 @@ exports.findAccountById = function(res, id){
     });
 }
 
+/*
+ * @ name : update profile
+ * @ description : update account, no update email, username,id,create_date,isreview,isactive
+ * @ authen : locnt
+ * @ param : res - response to client
+ * @ param : id - id of object
+ */
+exports.updateProfile = function(res, updateAccount, id) {
+    mysqlDao.updateById(res, TableNameAccount, fieldNameId, updateAccount, id);
+}
