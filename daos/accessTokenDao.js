@@ -7,6 +7,7 @@ var mysqlDao = require("../daos/MysqlDao");
 var mysqlHelper = require("../daos/MysqlHelper");
 var message = require('../messages/en').contentMessage;
 var constant = require('../public/constant');
+var mysqlResponseModel = require('../models/mysqlResponseModel');
 
 var accessTokenModel = require('../models/accessTokenModel');
 var TableName = "access_token";
@@ -49,3 +50,73 @@ exports.insertAccessToken = function(userId, device_token, access_token){
         }
     });
 }
+
+exports.removeAccessToken = function(access_token){
+    console.log(" +++ " + "DAO remove access token ");
+    var connection = mysql.createConnection(constant.mysqlInfo);
+
+    var sql_remove_access = constant.sql_script_home.sql_remove_access_token_logout;
+    var sql_remove_access_param = [access_token];
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ removeAccessToken connect error - " + err);
+        }else{
+            console.log(" +++ removeAccessToken connect success");
+            connection.query(sql_remove_access, sql_remove_access_param, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ remove access error - " + err);
+                }else {
+                    console.log(" +++ remove access success - " + JSON.stringify({results : rows}));
+                }
+            });
+            connection.end();
+        }
+    });
+}
+
+exports.checkAccessToken = function(access_token, res, callback, paramCallback){
+    console.log(" +++ " + "DAO check access token ");
+    var connection = mysql.createConnection(constant.mysqlInfo);
+
+    var sql_check_access = constant.sql_script_home.sql_check_access_token;
+    var sql_check_access_param = [access_token];
+
+    var actionName = message.functionName.check_access_token;
+    var responseModel = new mysqlResponseModel.MysqlResponse();
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ checkAccessToken connect error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
+        }else{
+            console.log(" +++ checkAccessToken connect success");
+            connection.query(sql_check_access, sql_check_access_param, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ check access error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else if(rows.length == 0){
+                    console.log(" +++ check access error - " + err);
+                    responseModel.errorsObject = {};
+                    responseModel.errorsMessage = message.error_access_token;
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_check_access_token;
+                    res.send(responseModel);
+                }else {
+                    console.log(" +++ check access success - " + JSON.stringify({results : rows}));
+                    var accessTokenObj = rows[0];
+                    callback(res, accessTokenObj, paramCallback);
+                }
+            });
+            connection.end();
+        }
+    });
+}
+

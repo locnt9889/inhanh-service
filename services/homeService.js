@@ -2,9 +2,11 @@
  * Created by locnt9889 on 12/25/2014.
  */
 var homeDao = require("../daos/homeDao");
+var accessTokenDao = require("../daos/accessTokenDao");
 var accountModel = require("../models/accountModel");
 
 exports.register = function(req, res){
+    var accessToken = req.param("token");
     var newAcountJson = req.param("newaccount");
     var newPersonreq = JSON.parse(newAcountJson);
 
@@ -64,11 +66,17 @@ exports.updateProfile = function(req, res){
     updateAccount.city_code = updatePersonreq.city_code ? updatePersonreq.city_code : "";
     updateAccount.group = updatePersonreq.group ? updatePersonreq.group : "";
 
-    homeDao.updateProfile(res, updateAccount, id);
+    var accessToken = req.param("token");
+    var callback_param = updateAccount;
+    accessTokenDao.checkAccessToken(accessToken, res, homeDao.updateProfile, callback_param);
+    //homeDao.updateProfile(res, updateAccount, id);
 }
 
 exports.findAccountById = function(req, res){
     var paramId = req.param("id") || 0;
 
-    homeDao.findAccountById(res, paramId);
+    var accessToken = req.param("token");
+    var callback_param = [];
+    accessTokenDao.checkAccessToken(accessToken, res, homeDao.findAccountById, callback_param);
+    //homeDao.findAccountById(res, paramId);
 }

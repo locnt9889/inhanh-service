@@ -43,7 +43,8 @@ exports.error_code = {
 
     error_check_register_email : 2,
     error_check_register_username : 3,
-    error_check_login : 4
+    error_check_login : 4,
+    error_check_access_token : 5
 
 }
 
@@ -59,7 +60,9 @@ exports.sql_script_home = {
     sql_check_email_exist : "SELECT id FROM Account WHERE email = ?",
     sql_check_username_exist : "SELECT id FROM Account WHERE username = ?",
     sql_check_login : "SELECT id FROM Account WHERE username = ? AND password = ? AND isactive = 1",
-    sql_remove_all_token_access_by_user_and_device : "UPDATE access_token SET isactive = 0 WHERE user_id = ? AND device_token = ?"
+    sql_remove_all_token_access_by_user_and_device : "UPDATE access_token SET isactive = 0 WHERE user_id = ? AND device_token = ?",
+    sql_remove_access_token_logout : "UPDATE access_token SET islogin = 0 WHERE access_token = ?",
+    sql_check_access_token : "SELECT * FROM access_token WHERE access_token = ? AND islogin = 1 AND isactive = 1"
 }
 
 exports.table_name = {
