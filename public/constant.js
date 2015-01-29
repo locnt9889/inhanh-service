@@ -44,7 +44,8 @@ exports.error_code = {
     error_check_register_email : 2,
     error_check_register_username : 3,
     error_check_login : 4,
-    error_check_access_token : 5
+    error_check_access_token : 5,
+    error_check_oldpassword : 6
 
 }
 
@@ -53,7 +54,7 @@ exports.sql_script = {
     sql_findById_isactive : "SELECT * FROM #table WHERE isactive = 1 AND #id = ?",
     sql_removeById : "UPDATE #table SET isactive = 0 WHERE #id = ?",
     sql_updateById : "UPDATE #table SET ? WHERE #id = ?",
-    sql_insert : "INSERT INTO #table SET ?",
+    sql_insert : "INSERT INTO #table SET ?"
 }
 
 exports.sql_script_home = {
@@ -62,7 +63,8 @@ exports.sql_script_home = {
     sql_check_login : "SELECT id FROM Account WHERE username = ? AND password = ? AND isactive = 1",
     sql_remove_all_token_access_by_user_and_device : "UPDATE access_token SET isactive = 0 WHERE user_id = ? AND device_token = ?",
     sql_remove_access_token_logout : "UPDATE access_token SET islogin = 0 WHERE access_token = ?",
-    sql_check_access_token : "SELECT * FROM access_token WHERE access_token = ? AND islogin = 1 AND isactive = 1"
+    sql_check_access_token : "SELECT * FROM access_token WHERE access_token = ? AND islogin = 1 AND isactive = 1",
+    sql_check_oldpassword : "SELECT id FROM Account WHERE isactive = 1 AND id = ? AND password = ?"
 }
 
 exports.table_name = {

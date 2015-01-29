@@ -10,7 +10,8 @@ exports.contentMessage = {
         findById : "Find by id",
         updateById : "Update by id",
         login : "Login",
-        check_access_token : "Check access token"
+        check_access_token : "Check access token",
+        chang_password : "Change password"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "#1 is failure!",
@@ -19,5 +20,6 @@ exports.contentMessage = {
     registerEmailExist : "Email was Existed, please input other email!",
     login_fail : "Username is not exist or password is incorrect.Please re-enter!",
     login_success : "Login is successfully!",
-    error_access_token : "Access token error!"
+    error_access_token : "Access token error!",
+    error_check_oldpassword : "Old password is incorrect!"
 }

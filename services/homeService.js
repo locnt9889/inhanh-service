@@ -6,8 +6,7 @@ var accessTokenDao = require("../daos/accessTokenDao");
 var accountModel = require("../models/accountModel");
 
 exports.register = function(req, res){
-    var accessToken = req.param("token");
-    var newAcountJson = req.param("newaccount");
+    var newAcountJson = req.query.newaccount;
     var newPersonreq = JSON.parse(newAcountJson);
 
     var newAccount = new accountModel.Account();
@@ -38,6 +37,12 @@ exports.login = function(req, res){
     var device_token = req.query.device_token;
 
     homeDao.login(res, username, password, device_token);
+}
+
+exports.logout = function(req, res){
+    var access_token = req.query.token;
+    accessTokenDao.removeAccessToken(access_token);
+    res.end();
 }
 
 exports.updateProfile = function(req, res){
@@ -78,5 +83,20 @@ exports.findAccountById = function(req, res){
     var accessToken = req.param("token");
     var callback_param = [];
     accessTokenDao.checkAccessToken(accessToken, res, homeDao.findAccountById, callback_param);
+    //homeDao.findAccountById(res, paramId);
+}
+
+exports.changePassword = function(req, res){
+    //var paramId = req.param("id") || 0;
+
+    var accessToken = req.query.token;
+    var info = req.query.info;
+    var callback_param = {};
+    try{
+        callback_param = JSON.parse(info);
+    }catch (e){
+        console.log("---changePassword parse JSON error");
+    }
+    accessTokenDao.checkAccessToken(accessToken, res, homeDao.changePassword, callback_param);
     //homeDao.findAccountById(res, paramId);
 }

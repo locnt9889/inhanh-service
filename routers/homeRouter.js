@@ -18,11 +18,11 @@ module.exports = router;
  * @ authen : locnt
  * @ param : newaccount = json string
  */
-router.get('/register', function(req, res) {
+router.post('/register', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/register");
     homeService.register(req, res);
 });
-router.po
+
 /*
  * @ name : home/login
  * @ description : find user by id
@@ -34,6 +34,19 @@ router.po
 router.post('/login', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/login");
     homeService.login(req, res);
+});
+
+/*
+ * @ name : home/logout
+ * @ description : find user by id
+ * @ authen : locnt
+ * @ attr : username
+ * @ attr : password
+ * @ attr : device_token
+ */
+router.post('/logout', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/logout");
+    homeService.logout(req, res);
 });
 
 /*
@@ -57,4 +70,15 @@ router.get('/updateprofile', function(req, res) {
 router.get('/findaccountbyid', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/findaccountbyid");
     homeService.findAccountById(req, res);
+});
+
+/*
+ * @ name : home/changepassword
+ * @ description : change password
+ * @ authen : locnt
+ * @ param : id = 1
+ */
+router.post('/changepassword', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/changepassword");
+    homeService.changePassword(req, res);
 });

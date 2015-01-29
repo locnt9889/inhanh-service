@@ -188,66 +188,6 @@ exports.login = function(res, username, password, device_token){
 }
 
 /*
- * @ name : login
- * @ description : login with isactive == 1
- * @ authen : locnt
- * @ param : res - response to client
- * @ param : tableName - table name
- * @ param : id - id of object
- */
-exports.logout = function(res, username, device_token){
-    console.log(" +++ " + "DAO logout ");
-    var connection = mysql.createConnection(constant.mysqlInfo);
-    var sql_check_login = constant.sql_script_home.sql_check_login;
-    var sql_param = [username, password];
-    var actionName = message.functionName.findById;
-
-    connection.connect(function(err,connect){
-        if(err){
-            console.log(" +++ Login connect error - " + err);
-            mysqlHelper.errorConnection(res, err, connection);
-        }else{
-            console.log(" +++ Login connect success");
-            var responseModel = new mysqlResponseModel.MysqlResponse();
-            connection.query(sql_check_login, sql_param, function(err, rows, fields) {
-                if (err) {
-                    console.log(" +++ query error - " + err);
-                    responseModel.errorsObject = {
-                        code : err.code,
-                        errno : err.errno,
-                        message : err.message,
-                        sqlState : err.sqlState
-                    };
-                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
-                    responseModel.results = {};
-                    responseModel.statusErrorCode = constant.error_code.error_system_query;
-                    connection.end();
-                    res.send(responseModel);
-                }else if(rows.length == 0){
-                    console.log(" +++ login fail ");
-                    responseModel.errorsMessage = message.login_fail;
-                    responseModel.results = {};
-                    responseModel.statusErrorCode = constant.error_code.error_check_login;
-                    connection.end();
-                    res.send(responseModel);
-                }else {
-                    console.log(" +++ query success - " + JSON.stringify({results : rows}));
-                    var access_token = commonService.generateAccessToken();
-                    var userId = rows[0].id;
-                    responseModel.results = {id : userId, "access_token" : access_token};
-                    responseModel.statusErrorCode = constant.error_code.success;
-
-                    //insert access token
-                    accessTokenDao.insertAccessToken(userId, device_token, access_token);
-                    connection.end();
-                    res.send(responseModel);
-                }
-            });
-        }
-    });
-}
-
-/*
  * @ name : findAccountById
  * @ description : find object by id with isactive == 1
  * @ authen : locnt
@@ -306,4 +246,55 @@ exports.findAccountById = function(res, accessTokenObj, param){
  */
 exports.updateProfile = function(res, accessTokenObj, updateAccount) {
     mysqlDao.updateById(res, TableNameAccount, fieldNameId, updateAccount, accessTokenObj.user_id);
+}
+
+/*
+ * @ name : changePassword
+ * @ description : changePassword
+ * @ authen : locnt
+ * @ param : res - response
+ * @ param : accessTokenObj - object get from access token
+ * @ param : param
+ */
+exports.changePassword = function(res, accessTokenObj, param){
+    var connection = mysql.createConnection(constant.mysqlInfo);
+    console.log(" +++ " + "DAO changePassword "+ accessTokenObj.user_id +" : ");
+    var sql_check_oldpass = constant.sql_script_home.sql_check_oldpassword;
+    var sql_param_check_oldpass = [accessTokenObj.user_id, param.old_password];
+    var actionName = message.functionName.chang_password;
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ find by id connect error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
+        }else{
+            console.log(" +++ find by id connect success");
+            var responseModel = new mysqlResponseModel.MysqlResponse();
+            connection.query(sql_check_oldpass, sql_param_check_oldpass, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else if(rows.length == 0){
+                    console.log(" +++  old password is incorrect - ");
+                    responseModel.errorsObject = {};
+                    responseModel.errorsMessage = message.error_check_oldpassword;
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_check_oldpassword;
+                    res.send(responseModel);
+                }else {
+                    mysqlDao.updateById(res, TableNameAccount, fieldNameId, {password : param.new_password}, accessTokenObj.user_id);
+                }
+            });
+            connection.end();
+        }
+    });
 }
