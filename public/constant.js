@@ -3,7 +3,7 @@
  */
 
 /*local db*/
-exports.mysqlURL = "mysql://root:12345@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";
+exports.mysqlURL = "mysql://devinhanh:inhanh2014@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";
 exports.mysqlInfo = {
     host: 'localhost',
     user: 'root',
