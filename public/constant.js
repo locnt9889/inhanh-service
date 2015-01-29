@@ -68,6 +68,6 @@ exports.sql_script_home = {
 }
 
 exports.table_name = {
-    person : "Person",
-    account : "Account"
+    person : "person",
+    account : "account"
 }
