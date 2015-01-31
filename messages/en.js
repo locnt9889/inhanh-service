@@ -14,7 +14,7 @@ exports.contentMessage = {
         chang_password : "Change password"
     },
     errorConnectionDB : "Connection to Database is failure!",
-    errorQuery : "#1 is failure!",
+    errorQuery : "Query with #1 is failure!",
     errorInsert : "Insert new #1 is failure!",
     registerUsernameExist : "Username was Existed, please input other username!",
     registerEmailExist : "Email was Existed, please input other email!",
