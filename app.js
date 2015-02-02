@@ -3,12 +3,15 @@
 // app.js
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
 
 //require router
 var persons = require('./routers/personRouter');
 var homes = require('./routers/homeRouter');
 
 var app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //mapping url

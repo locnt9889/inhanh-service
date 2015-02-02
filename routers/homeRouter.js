@@ -56,7 +56,7 @@ router.post('/logout', function(req, res) {
  * @ param : updateaccount = json string
  * @ param : id = 1
  */
-router.get('/updateprofile', function(req, res) {
+router.post('/updateprofile', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/updateprofile");
     homeService.updateProfile(req, res);
 });
@@ -67,7 +67,7 @@ router.get('/updateprofile', function(req, res) {
  * @ authen : locnt
  * @ param : id = 1
  */
-router.get('/findaccountbyid', function(req, res) {
+router.post('/findaccountbyid', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/findaccountbyid");
     homeService.findAccountById(req, res);
 });

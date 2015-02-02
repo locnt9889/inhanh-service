@@ -8,6 +8,7 @@
 	},
 	"dependencies": {
 	  "express": "~4.2.0",
+      "body-parser": "~1.0.0",
 	  "mongodb": "1.4.7",
 	  "mysql" : "2.5.2",
 	  "moment" : "1.7.2",
