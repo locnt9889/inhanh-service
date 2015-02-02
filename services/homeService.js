@@ -36,7 +36,7 @@ exports.register = function(req, res){
 exports.login = function(req, res){
     var username = req.body.username;
     var password = req.body.password;
-    var device_token = req.body.device_token;
+    var device_token = req.body.device_token ? req.body.device_token : "";
 
     homeDao.login(res, username, password, device_token);
 }
