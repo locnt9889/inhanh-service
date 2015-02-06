@@ -2,9 +2,9 @@
  * Created by locnt9889 on 12/25/2014.
  */
 
-function Account(){
-    this.id = 0;
-    this.username = "";
+/*function Account(){
+    id = 0;
+    this.username =this. "";
     this.password = "";
     this.email = "";
     this.phone = "";
@@ -20,6 +20,36 @@ function Account(){
     this.created_time = new Date();
     this.modified_time = new Date();
     this.isactive = 1
+}*/
+
+function Account(){
+  this.id = 0;
+  this.username = "";
+  this.password = "";
+  this.email = "";
+  this.type = "";
+  this.group_id = "";
+  this.group_mode = "";
+  this.firstname = "";
+  this.lastname = "";
+  this.phone = "";
+  this.birthday = "0000-00-00";
+  this.idcard = "";
+  this.idcard_date = "0000-00-00";
+  this.idcard_address = "";
+  this.title = "";
+  this.description = "";
+  this.address = "";
+  this.city_id = "";
+  this.created_time = new Date();
+  this.modified_time = new Date();
+  this.isreview = 0;
+  this.isactive = 1;
+  this.isupdate = 0;
+  this.is_map_default = 1;
+  this.latitude = 0;
+  this.longitude = 0;
+  this.avatar_url = "";
 }
 
 exports.Account = Account;

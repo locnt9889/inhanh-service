@@ -11,7 +11,8 @@ exports.contentMessage = {
         updateById : "Update by id",
         login : "Login",
         check_access_token : "Check access token",
-        chang_password : "Change password"
+        chang_password : "Change password",
+        get_city_by_country : "Get list city by country"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "Query with #1 is failure!",
@@ -23,3 +24,4 @@ exports.contentMessage = {
     error_access_token : "Access token error!",
     error_check_oldpassword : "Old password is incorrect!"
 }
+

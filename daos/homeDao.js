@@ -174,7 +174,14 @@ exports.login = function(res, username, password, device_token){
                     console.log(" +++ query success - " + JSON.stringify({results : rows}));
                     var access_token = commonService.generateAccessToken();
                     var userId = rows[0].id;
-                    responseModel.results = {id : userId, "access_token" : access_token};
+                    responseModel.results = {
+                        access_token : access_token,
+                        id : rows[0].id,
+                        type : rows[0].type,
+                        group_id : rows[0].group_id,
+                        group_mode : rows[0].group_mode,
+                        isupdate : rows[0].isupdate
+                    };
                     responseModel.statusErrorCode = constant.error_code.success;
 
                     //insert access token

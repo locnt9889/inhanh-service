@@ -10,6 +10,8 @@ exports.register = function(req, res){
     var password = req.body.password;
     var email = req.body.email;
     var type = req.body.type;
+    var group_id = req.body.group_id;
+    var group_mode = req.body.group_mode;
 
     var newAccount = new accountModel.Account();
 
@@ -17,6 +19,8 @@ exports.register = function(req, res){
     newAccount.password = password ? password : "";
     newAccount.email = email ? email : "";
     newAccount.type = type ? type : "";
+    newAccount.group_id = group_id ? group_id : 0;
+    newAccount.group_mode = group_mode ? group_mode : "";
 
     /*newAccount.phone = newPersonreq.phone ? newPersonreq.phone : "";
     newAccount.birthday = newPersonreq.birthday ? newPersonreq.birthday : "";
@@ -29,6 +33,7 @@ exports.register = function(req, res){
 
     newAccount.isreview = 0;
     newAccount.isactive = 1;
+    newAccount.isupdate = 0;
 
     homeDao.register(res, newAccount);
 }
@@ -62,7 +67,11 @@ exports.updateProfile = function(req, res){
     delete(updateAccount.email);
     delete(updateAccount.created_time);
     delete(updateAccount.modified_time);
+    delete(updateAccount.type);
+    delete(updateAccount.group_id);
+    delete(updateAccount.group_mode);
 
+    updateAccount.isupdate = 1;
     updateAccount.phone = updatePersonreq.phone ? updatePersonreq.phone : "";
     updateAccount.birthday = updatePersonreq.birthday ? updatePersonreq.birthday : "";
     updateAccount.idcard = updatePersonreq.idcard ? updatePersonreq.idcard : "";
@@ -70,8 +79,16 @@ exports.updateProfile = function(req, res){
     updateAccount.idcard_address = updatePersonreq.idcard_address ? updatePersonreq.idcard_address : "";
     updateAccount.type = updatePersonreq.type ? updatePersonreq.type : "";
     updateAccount.address = updatePersonreq.address ? updatePersonreq.address : "";
-    updateAccount.city_code = updatePersonreq.city_code ? updatePersonreq.city_code : "";
-    updateAccount.group = updatePersonreq.group ? updatePersonreq.group : "";
+    updateAccount.city_id = updatePersonreq.city_id ? updatePersonreq.city_id : "";
+
+    updateAccount.firstname = updatePersonreq.firstname ? updatePersonreq.firstname : "";
+    updateAccount.lastname = updatePersonreq.lastname ? updatePersonreq.lastname : "";
+    updateAccount.title = updatePersonreq.title ? updatePersonreq.title : "";
+    updateAccount.description = updatePersonreq.description ? updatePersonreq.description : "";
+    updateAccount.is_map_default = updatePersonreq.is_map_default ? updatePersonreq.is_map_default : 1;
+    updateAccount.latitude = updatePersonreq.latitude ? updatePersonreq.latitude : 0;
+    updateAccount.longitude = updatePersonreq.longitude ? updatePersonreq.longitude : 0;
+    updateAccount.avatar_url = updatePersonreq.avatar_url ? updatePersonreq.avatar_url : "";
 
     var callback_param = updateAccount;
     accessTokenDao.checkAccessToken(accessToken, res, homeDao.updateProfile, callback_param);

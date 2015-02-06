@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 //require router
 var persons = require('./routers/personRouter');
 var homes = require('./routers/homeRouter');
+var citys = require('./routers/cityRouter');
 
 var app = express();
 app.use(bodyParser.json());
@@ -20,6 +21,7 @@ app.get('/', function (req, res) {
 });
 app.use('/person', persons);
 app.use('/home', homes);
+app.use('/city', citys);
 
 // Start server
 app.set('port', (process.env.PORT || 5000));

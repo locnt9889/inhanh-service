@@ -60,11 +60,15 @@ exports.sql_script = {
 exports.sql_script_home = {
     sql_check_email_exist : "SELECT id FROM account WHERE email = ?",
     sql_check_username_exist : "SELECT id FROM account WHERE username = ?",
-    sql_check_login : "SELECT id FROM account WHERE username = ? AND password = ? AND isactive = 1",
+    sql_check_login : "SELECT id,type,group_id,group_mode,isupdate FROM account WHERE username = ? AND password = ? AND isactive = 1",
     sql_remove_all_token_access_by_user_and_device : "UPDATE access_token SET isactive = 0 WHERE user_id = ? AND device_token = ?",
     sql_remove_access_token_logout : "UPDATE access_token SET islogin = 0 WHERE access_token = ?",
     sql_check_access_token : "SELECT * FROM access_token WHERE access_token = ? AND islogin = 1 AND isactive = 1",
     sql_check_oldpassword : "SELECT id FROM account WHERE isactive = 1 AND id = ? AND password = ?"
+}
+
+exports.sql_script_city = {
+    sql_get_city_by_country : "SELECT ci.city_id, ci.city_name, ci.city_code FROM city ci JOIN country co WHERE ci.country_id = co.country_id AND co.country_code = ? AND ci.isactive = 1",
 }
 
 exports.table_name = {
