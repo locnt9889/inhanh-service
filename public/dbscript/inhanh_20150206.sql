@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2015 at 12:44 PM
+-- Generation Time: Feb 06, 2015 at 12:51 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -165,11 +165,11 @@ CREATE TABLE IF NOT EXISTS `order_detail` (
   `name_reciever` varchar(1024) NOT NULL,
   `ship_cost` double NOT NULL,
   `currency_code` int(255) DEFAULT '0',
-  `ship_dealline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ship_dealline` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `isactive` tinyint(4) NOT NULL,
   `status` int(11) NOT NULL,
-  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifed_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modifed_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `order_value` varchar(1024) NOT NULL,
   `shoper_id` int(8) NOT NULL,
   `order_description` varchar(1024) NOT NULL,
@@ -192,8 +192,8 @@ CREATE TABLE IF NOT EXISTS `order_ship` (
   `status` int(8) NOT NULL,
   `rate` int(11) NOT NULL,
   `isactive` tinyint(1) NOT NULL,
-  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `comment` varchar(10000) NOT NULL,
   PRIMARY KEY (`order_ship_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
