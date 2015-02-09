@@ -33,9 +33,9 @@ function Account(){
   this.firstname = "";
   this.lastname = "";
   this.phone = "";
-  this.birthday = "0000-00-00";
+  this.birthday = new Date();
   this.idcard = "";
-  this.idcard_date = "0000-00-00";
+  this.idcard_date = new Date();
   this.idcard_address = "";
   this.title = "";
   this.description = "";

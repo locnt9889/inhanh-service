@@ -8,7 +8,7 @@ function AccessToken(){
     this.user_id = "";
     this.device_token = "";
     this.access_token = "";
-    this.login_time = new Date();
+    this.login_time = "";
     this.logout_time = "";
     this.islogin = 1;
     this.isactive = 1

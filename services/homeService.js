@@ -22,15 +22,6 @@ exports.register = function(req, res){
     newAccount.group_id = group_id ? group_id : 0;
     newAccount.group_mode = group_mode ? group_mode : "";
 
-    /*newAccount.phone = newPersonreq.phone ? newPersonreq.phone : "";
-    newAccount.birthday = newPersonreq.birthday ? newPersonreq.birthday : "";
-    newAccount.idcard = newPersonreq.idcard ? newPersonreq.idcard : "";
-    newAccount.idcard_date = newPersonreq.idcard_date ? newPersonreq.idcard_date : "";
-    newAccount.idcard_address = newPersonreq.idcard_address ? newPersonreq.idcard_address : "";
-    newAccount.address = newPersonreq.address ? newPersonreq.address : "";
-    newAccount.city_code = newPersonreq.city_code ? newPersonreq.city_code : "";
-    newAccount.group = newPersonreq.group ? newPersonreq.group : "";*/
-
     newAccount.isreview = 0;
     newAccount.isactive = 1;
     newAccount.isupdate = 0;
@@ -66,16 +57,16 @@ exports.updateProfile = function(req, res){
     delete(updateAccount.isactive);
     delete(updateAccount.email);
     delete(updateAccount.created_time);
-    delete(updateAccount.modified_time);
     delete(updateAccount.type);
     delete(updateAccount.group_id);
     delete(updateAccount.group_mode);
 
     updateAccount.isupdate = 1;
+    updateAccount.modified_time = new Date();
     updateAccount.phone = updatePersonreq.phone ? updatePersonreq.phone : "";
-    updateAccount.birthday = updatePersonreq.birthday ? updatePersonreq.birthday : "";
+    updateAccount.birthday = updatePersonreq.birthday ? updatePersonreq.birthday : new Date();
     updateAccount.idcard = updatePersonreq.idcard ? updatePersonreq.idcard : "";
-    updateAccount.idcard_date = updatePersonreq.idcard_date ? updatePersonreq.idcard_date : "";
+    updateAccount.idcard_date = updatePersonreq.idcard_date ? updatePersonreq.idcard_date : new Date();
     updateAccount.idcard_address = updatePersonreq.idcard_address ? updatePersonreq.idcard_address : "";
     updateAccount.type = updatePersonreq.type ? updatePersonreq.type : "";
     updateAccount.address = updatePersonreq.address ? updatePersonreq.address : "";

@@ -24,6 +24,7 @@ exports.insertAccessToken = function(userId, device_token, access_token){
     newAccessTokenModel.user_id = userId;
     newAccessTokenModel.device_token = device_token;
     newAccessTokenModel.access_token = access_token;
+    newAccessTokenModel.login_time = new Date();
 
     var sql_insert_param = newAccessTokenModel;
     var sql_remove_access_param = [userId, device_token];
@@ -56,7 +57,7 @@ exports.removeAccessToken = function(access_token){
     var connection = mysql.createConnection(constant.mysqlInfo);
 
     var sql_remove_access = constant.sql_script_home.sql_remove_access_token_logout;
-    var sql_remove_access_param = [access_token];
+    var sql_remove_access_param = [new Date(), access_token];
     connection.connect(function(err,connect){
         if(err){
             console.log(" +++ removeAccessToken connect error - " + err);
