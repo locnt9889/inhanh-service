@@ -52,22 +52,39 @@ exports.insertAccessToken = function(userId, device_token, access_token){
     });
 }
 
-exports.removeAccessToken = function(access_token){
+exports.removeAccessToken = function(res, accessTokenObj, access_token){
     console.log(" +++ " + "DAO remove access token ");
     var connection = mysql.createConnection(constant.mysqlInfo);
 
     var sql_remove_access = constant.sql_script_home.sql_remove_access_token_logout;
     var sql_remove_access_param = [new Date(), access_token];
+
+    var actionName = message.functionName.logout;
+    var responseModel = new mysqlResponseModel.MysqlResponse();
     connection.connect(function(err,connect){
         if(err){
             console.log(" +++ removeAccessToken connect error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
         }else{
             console.log(" +++ removeAccessToken connect success");
             connection.query(sql_remove_access, sql_remove_access_param, function(err, rows, fields) {
                 if (err) {
                     console.log(" +++ remove access error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
                 }else {
                     console.log(" +++ remove access success - " + JSON.stringify({results : rows}));
+                    responseModel.results = rows;
+                    responseModel.statusErrorCode = constant.error_code.success;
+                    res.send(responseModel);
                 }
             });
             connection.end();

@@ -39,8 +39,9 @@ exports.login = function(req, res){
 
 exports.logout = function(req, res){
     var access_token = req.body.access_token;
-    accessTokenDao.removeAccessToken(access_token);
-    res.end();
+    accessTokenDao.checkAccessToken(access_token, res, accessTokenDao.removeAccessToken, access_token);
+    //accessTokenDao.removeAccessToken(access_token);
+    //res.end();
 }
 
 exports.updateProfile = function(req, res){
