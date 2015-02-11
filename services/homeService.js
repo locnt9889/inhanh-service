@@ -97,8 +97,8 @@ exports.findAccountById = function(req, res){
 
 exports.changePassword = function(req, res){
     var accessToken = req.body.access_token;
-    var old_password = req.body.old_password ? req.body.old_password : "";
-    var new_password = req.body.new_password ? req.body.new_password : "";
+    var old_password = md5(req.body.old_password ? req.body.old_password : "");
+    var new_password = md5(req.body.new_password ? req.body.new_password : "");
 
     var callback_param = {
         "old_password":old_password,

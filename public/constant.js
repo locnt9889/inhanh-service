@@ -15,7 +15,7 @@ exports.mysqlInfo = {
 
 exports.mysqlURL = "mysql://devinhanh:inhanh2014@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";
 exports.mysqlInfo = {
-    host: 'localhost',
+    host: '104.236.31.239',
     user: 'devinhanh',
     password: 'inhanh2014',
     database: 'inhanh'
