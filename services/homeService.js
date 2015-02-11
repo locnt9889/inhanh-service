@@ -4,6 +4,7 @@
 var homeDao = require("../daos/homeDao");
 var accessTokenDao = require("../daos/accessTokenDao");
 var accountModel = require("../models/accountModel");
+var md5 = require("MD5");
 
 exports.register = function(req, res){
     var username = req.body.username;
@@ -16,7 +17,7 @@ exports.register = function(req, res){
     var newAccount = new accountModel.Account();
 
     newAccount.username = username ? username : "";
-    newAccount.password = password ? password : "";
+    newAccount.password = md5(password ? password : "");
     newAccount.email = email ? email : "";
     newAccount.type = type ? type : "";
     newAccount.group_id = group_id ? group_id : 0;
@@ -31,7 +32,7 @@ exports.register = function(req, res){
 
 exports.login = function(req, res){
     var username = req.body.username;
-    var password = req.body.password;
+    var password = md5(req.body.password);
     var device_token = req.body.device_token ? req.body.device_token : "";
 
     homeDao.login(res, username, password, device_token);
