@@ -3,8 +3,8 @@
  */
 
 /*local db*/
-/*exports.mysqlURL = "mysql://root:12345@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";
-exports.mysqlInfo = {
+exports.mysqlURL = "mysql://root:12345@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";
+/*exports.mysqlInfo = {
     host: 'localhost',
     user: 'root',
     password: '12345',
@@ -13,7 +13,7 @@ exports.mysqlInfo = {
 
 /*server db*/
 
-exports.mysqlURL = "mysql://devinhanh:inhanh2014@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";
+//exports.mysqlURL = "mysql://devinhanh:inhanh2014@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";
 exports.mysqlInfo = {
     host: 'localhost',
     user: 'devinhanh',
@@ -68,10 +68,10 @@ exports.sql_script_home = {
 }
 
 exports.sql_script_city = {
-    sql_get_city_by_country : "SELECT ci.city_id, ci.city_name, ci.city_code FROM city ci JOIN country co WHERE ci.country_id = co.country_id AND co.country_code = ? AND ci.isactive = 1",
-}
+    sql_get_city_by_country : "SELECT ci.city_id, ci.city_name, ci.city_code FROM city ci JOIN country co WHERE ci.country_id = co.country_id AND co.country_code = ? AND ci.isactive = 1"
+};
 
 exports.table_name = {
     person : "person",
     account : "account"
-}
+};
