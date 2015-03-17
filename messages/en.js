@@ -14,7 +14,8 @@ exports.contentMessage = {
         chang_password : "Change password",
         get_city_by_country : "Get list city by country",
         logout : "Logout",
-        searchAccount : "search account"
+        searchAccount : "search account",
+        getContact : "get all contact"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "Query with #1 is failure!",

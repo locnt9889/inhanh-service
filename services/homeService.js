@@ -4,6 +4,8 @@
 var homeDao = require("../daos/homeDao");
 var accessTokenDao = require("../daos/accessTokenDao");
 var accountModel = require("../models/accountModel");
+var userContactModel = require("../models/userContactModel");
+
 var md5 = require("MD5");
 
 exports.register = function(req, res){
@@ -116,9 +118,27 @@ exports.searchAccount = function(req, res){
 
     var callback_param = {
         "type":type.toUpperCase(),
-        "text_search":textSearch.toUpperCase()
+        "text_search":textSearch
     };
 
     accessTokenDao.checkAccessToken(accessToken, res, homeDao.searchAccount, callback_param);
+    //homeDao.findAccountById(res, paramId);
+}
+
+exports.addContact = function(req, res){
+    var accessToken = req.body.access_token;
+    var contact_id = req.body.contact_id ? req.body.contact_id : 0;
+
+    var newContactObj = new userContactModel.UserContact();
+    newContactObj.contact_id = contact_id;
+
+    accessTokenDao.checkAccessToken(accessToken, res, homeDao.addContact, newContactObj);
+    //homeDao.findAccountById(res, paramId);
+}
+
+exports.getContact = function(req, res){
+    var accessToken = req.body.access_token;
+
+    accessTokenDao.checkAccessToken(accessToken, res, homeDao.getContact, []);
     //homeDao.findAccountById(res, paramId);
 }

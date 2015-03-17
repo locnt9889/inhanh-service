@@ -13,6 +13,8 @@ var accessTokenDao = require('./accessTokenDao');
 var TableNameAccount = constant.table_name.account;
 var fieldNameId = "id";
 
+var TableNameUserContactDetail = constant.table_name.user_contact;
+
 /*
  * @ name : register account
  * @ description : register account, check exist email, username
@@ -340,6 +342,69 @@ exports.searchAccount = function(res, accessTokenObj, param){
             console.log(" +++ search account connect success");
             var responseModel = new mysqlResponseModel.MysqlResponse();
             connection.query(sql_search_account, sql_param_search_account, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else {
+                    console.log(" +++ query is successfully - ");
+                    for(i = 0; i < rows.length; i ++){
+                        rows[i].password = "******";
+                    }
+                    responseModel.errorsObject = {};
+                    responseModel.errorsMessage = "";
+                    responseModel.results = rows;
+                    responseModel.statusErrorCode = constant.error_code.success;
+                    res.send(responseModel);
+                }
+            });
+            connection.end();
+        }
+    });
+}
+
+/*
+ * @ name : home/addContact
+ * @ description : add account to contact
+ * @ authen : locnt
+ * @ param : account_id : ic of contact
+ * @ param : access_token : access_token
+ */
+exports.addContact = function(res, accessTokenObj, newContactObj){
+    newContactObj.user_id = accessTokenObj.user_id;
+    mysqlDao.addNew(res, TableNameUserContactDetail, newContactObj);
+}
+
+/*
+ * @ name : home/getcontact
+ * @ description : get contact by id
+ * @ authen : locnt
+ * @ param : access_token : access_token
+ */
+exports.getContact = function(res, accessTokenObj, param){
+    var connection = mysql.createConnection(constant.mysqlInfo);
+    console.log(" +++ " + "DAO searchAccount : ");
+    var sql_get_contact = constant.sql_script_home.sql_get_contact_by_id;
+    var sql_param_get_contact = [accessTokenObj.user_id];
+
+    var actionName = message.functionName.getContact;
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ get contact connect error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
+        }else{
+            console.log(" +++ get connect success");
+            var responseModel = new mysqlResponseModel.MysqlResponse();
+            connection.query(sql_get_contact, sql_param_get_contact, function(err, rows, fields) {
                 if (err) {
                     console.log(" +++ query error - " + err);
                     responseModel.errorsObject = {

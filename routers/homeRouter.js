@@ -95,3 +95,26 @@ router.post('/searchaccount', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/searchaccount");
     homeService.searchAccount(req, res);
 });
+
+/*
+ * @ name : home/addcontact
+ * @ description : add other account to list contact
+ * @ authen : locnt
+ * @ param : contact_id : id of contact
+ * @ param : access_token : access_token
+ */
+router.post('/addcontact', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/addcontact");
+    homeService.addContact(req, res);
+});
+
+/*
+ * @ name : home/getcontact
+ * @ description : get contact by id
+ * @ authen : locnt
+ * @ param : access_token : access_token
+ */
+router.post('/getcontact', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/getcontact");
+    homeService.getContact(req, res);
+});
