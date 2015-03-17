@@ -109,9 +109,9 @@ exports.changePassword = function(req, res){
     //homeDao.findAccountById(res, paramId);
 }
 
-exports.changePassword = function(req, res){
+exports.searchAccount = function(req, res){
     var accessToken = req.body.access_token;
-    var type = req.body.type ? req.body.type : "all";
+    var type = req.body.type ? req.body.type : "ALL";
     var textSearch = req.body.text_search ? req.body.text_search : "";
 
     var callback_param = {

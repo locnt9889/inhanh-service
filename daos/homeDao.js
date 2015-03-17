@@ -321,23 +321,25 @@ exports.searchAccount = function(res, accessTokenObj, param){
     var sql_param_search_account = [];
 
     if(param.type !== "ALL" ){
-        sql_search_account = sql_search_account + " AND type = " + param.type;
+        sql_search_account = sql_search_account + " AND type = '" + param.type + "'";
     }
 
     if(param.text_search !== ""){
-        sql_search_account = sql_search_account + " AND (username LIKE ? OR firstname LIKE ? OR lastname LIKE ?)"
+        sql_search_account = sql_search_account + " AND (CONCAT(firstname,' ', lastname) LIKE ? OR username LIKE ?)";
+        var textSearchLike = "%" + param.text_search + "%";
+        sql_param_search_account = [textSearchLike,textSearchLike];
     }
 
-    var actionName = message.functionName.chang_password;
+    var actionName = message.functionName.searchAccount;
 
     connection.connect(function(err,connect){
         if(err){
-            console.log(" +++ find by id connect error - " + err);
+            console.log(" +++ search account connect error - " + err);
             mysqlHelper.errorConnection(res, err, connection);
         }else{
-            console.log(" +++ find by id connect success");
+            console.log(" +++ search account connect success");
             var responseModel = new mysqlResponseModel.MysqlResponse();
-            connection.query(sql_check_oldpass, sql_param_check_oldpass, function(err, rows, fields) {
+            connection.query(sql_search_account, sql_param_search_account, function(err, rows, fields) {
                 if (err) {
                     console.log(" +++ query error - " + err);
                     responseModel.errorsObject = {
@@ -350,15 +352,16 @@ exports.searchAccount = function(res, accessTokenObj, param){
                     responseModel.results = {};
                     responseModel.statusErrorCode = constant.error_code.error_system_query;
                     res.send(responseModel);
-                }else if(rows.length == 0){
-                    console.log(" +++  old password is incorrect - ");
-                    responseModel.errorsObject = {};
-                    responseModel.errorsMessage = message.error_check_oldpassword;
-                    responseModel.results = {};
-                    responseModel.statusErrorCode = constant.error_code.error_check_oldpassword;
-                    res.send(responseModel);
                 }else {
-                    mysqlDao.updateById(res, TableNameAccount, fieldNameId, {password : param.new_password}, accessTokenObj.user_id);
+                    console.log(" +++ query is successfully - ");
+                    for(i = 0; i < rows.length; i ++){
+                        rows[i].password = "******";
+                    }
+                    responseModel.errorsObject = {};
+                    responseModel.errorsMessage = "";
+                    responseModel.results = rows;
+                    responseModel.statusErrorCode = constant.error_code.success;
+                    res.send(responseModel);
                 }
             });
             connection.end();

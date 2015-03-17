@@ -13,7 +13,8 @@ exports.contentMessage = {
         check_access_token : "Check access token",
         chang_password : "Change password",
         get_city_by_country : "Get list city by country",
-        logout : "Logout"
+        logout : "Logout",
+        searchAccount : "search account"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "Query with #1 is failure!",
