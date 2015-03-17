@@ -108,3 +108,17 @@ exports.changePassword = function(req, res){
     accessTokenDao.checkAccessToken(accessToken, res, homeDao.changePassword, callback_param);
     //homeDao.findAccountById(res, paramId);
 }
+
+exports.changePassword = function(req, res){
+    var accessToken = req.body.access_token;
+    var type = req.body.type ? req.body.type : "all";
+    var textSearch = req.body.text_search ? req.body.text_search : "";
+
+    var callback_param = {
+        "type":type.toUpperCase(),
+        "text_search":textSearch.toUpperCase()
+    };
+
+    accessTokenDao.checkAccessToken(accessToken, res, homeDao.searchAccount, callback_param);
+    //homeDao.findAccountById(res, paramId);
+}

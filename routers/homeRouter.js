@@ -82,3 +82,16 @@ router.post('/changepassword', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/changepassword");
     homeService.changePassword(req, res);
 });
+
+/*
+ * @ name : home/searchaccount
+ * @ description : search account
+ * @ authen : locnt
+ * @ param : type : account type
+ * @ param : text_search : text for search
+ * @ param : access_token : access_token
+ */
+router.post('/searchaccount', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/searchaccount");
+    homeService.searchAccount(req, res);
+});
