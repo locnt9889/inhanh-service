@@ -9,7 +9,7 @@ var message = require('../messages/en').contentMessage;
 var constant = require('../public/constant');
 var mysqlResponseModel = require('../models/mysqlResponseModel');
 
-var TableNameOrderDetail = "order_detail";
+var TableNameOrderDetail = constant.table_name.order_detail;
 var fieldNameId = "order_id";
 
 /*
