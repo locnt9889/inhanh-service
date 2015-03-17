@@ -110,11 +110,23 @@ router.post('/addcontact', function(req, res) {
 
 /*
  * @ name : home/getcontact
- * @ description : get contact by id
+ * @ description : get contact by user id
  * @ authen : locnt
  * @ param : access_token : access_token
  */
 router.post('/getcontact', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/getcontact");
     homeService.getContact(req, res);
+});
+
+/*
+ * @ name : home/removecontacts
+ * @ description : remove contact
+ * @ authen : locnt
+ * @ param : access_token : access_token
+ * @ param : array_contact_id : array contact id
+ */
+router.post('/removecontacts', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/removecontacts");
+    homeService.removeContacts(req, res);
 });

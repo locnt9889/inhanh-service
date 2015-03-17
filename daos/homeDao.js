@@ -433,3 +433,62 @@ exports.getContact = function(res, accessTokenObj, param){
         }
     });
 }
+
+/*
+ * @ name : home/removecontacts
+ * @ description : remove contact
+ * @ authen : locnt
+ * @ param : access_token : access_token
+ * @ param : array_contact_id : array contact id
+ */
+exports.removeContacts = function(res, accessTokenObj, contactsIdArray){
+    var connection = mysql.createConnection(constant.mysqlInfo);
+    console.log(" +++ " + "DAO searchAccount : ");
+    var inStringContactId = "(";
+    if(contactsIdArray.length > 0) {
+        for (i = 0; i < contactsIdArray.length - 1; i++) {
+            inStringContactId += contactsIdArray[i] + ",";
+        }
+        inStringContactId += contactsIdArray[contactsIdArray.length - 1] + ")";
+    }else{
+        inStringContactId = "(0)";
+    }
+
+    var sql_remove_contacts = constant.sql_script_home.sql_remove_contacts + inStringContactId;
+    var sql_param_remove_contacts = [accessTokenObj.user_id];
+
+    var actionName = message.functionName.getContact;
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ get contact connect error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
+        }else{
+            console.log(" +++ get connect success");
+            var responseModel = new mysqlResponseModel.MysqlResponse();
+            connection.query(sql_remove_contacts, sql_param_remove_contacts, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else {
+                    console.log(" +++ query is successfully - ");
+                    responseModel.errorsObject = {};
+                    responseModel.errorsMessage = "";
+                    responseModel.results = rows;
+                    responseModel.statusErrorCode = constant.error_code.success;
+                    res.send(responseModel);
+                }
+            });
+            connection.end();
+        }
+    });
+}

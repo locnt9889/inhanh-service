@@ -142,3 +142,18 @@ exports.getContact = function(req, res){
     accessTokenDao.checkAccessToken(accessToken, res, homeDao.getContact, []);
     //homeDao.findAccountById(res, paramId);
 }
+
+exports.removeContacts = function(req, res){
+    var accessToken = req.body.access_token;
+    var contactsIdReq = req.body.array_contact_id ? req.body.array_contact_id : "";
+    var contactsIdArray = [0];
+    if(contactsIdReq != ""){
+        try{
+            contactsIdArray = JSON.parse(contactsIdReq);
+        }catch(e){
+            console.log("------removeContacts : error pasre json array list contact");
+        }
+    }
+    accessTokenDao.checkAccessToken(accessToken, res, homeDao.removeContacts, contactsIdArray);
+    //homeDao.findAccountById(res, paramId);
+}
