@@ -16,7 +16,9 @@ exports.contentMessage = {
         logout : "Logout",
         searchAccount : "search account",
         getContact : "get all contact",
-        removeContacts : "remove list contact"
+        removeContacts : "remove list contact",
+        getAllOrder : "get all order by status",
+        searchAllOrderBetweenDate : "search all order between date"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "Query with #1 is failure!",

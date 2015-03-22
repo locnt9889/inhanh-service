@@ -6,7 +6,7 @@ function OrderDetail(){
     this.order_id = 0;
     this.user_id = 0;
     this.title = "";
-    this.description = "";
+    this.desc = "";
     this.author_phone = "";
     this.author_address = "";
     this.author_ismap = false;
@@ -26,6 +26,9 @@ function OrderDetail(){
     this.receiver_ismap = false;
     this.receiver_map_latitude = 0;
     this.receiver_map_logitude = 0;
+    this.currency = "VND";
+    this.shipper_id = 0;
+    this.status = "NEW";
     this.isactive = 1;
     this.isupdate = 0;
     this.created_time = new Date();

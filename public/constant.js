@@ -70,6 +70,10 @@ exports.sql_script_home = {
     sql_remove_contacts : "UPDATE user_contact SET isactive = 0 WHERE user_id = ? AND contact_id IN "
 }
 
+exports.sql_script_order = {
+    sql_search_all_order_pre : "SELECT od.order_id, od.title, od.desc, od.status,od.type as order_type, od.transportation as order_transportation,od.created_time as order_created_time, ac1.id as author_id, ac1.avatar_url as author_avatar_url, od.shipper_id as shipper_id, ac2.avatar_url as shipper_avatar_url, CONCAT(ac2.firstname,' ', ac2.lastname) as shipper_name, ac2.desc as shipper_desc, ac2.phone as shipper_phone FROM account ac1 INNER JOIN order_detail od ON ac1.id = od.user_id LEFT JOIN account ac2 ON od.shipper_id = ac2.id WHERE ac1.isactive = 1 AND od.isactive = 1"
+}
+
 exports.sql_script_city = {
     sql_get_city_by_country : "SELECT ci.city_id, ci.city_name, ci.city_code FROM city ci JOIN country co WHERE ci.country_id = co.country_id AND co.country_code = ? AND ci.isactive = 1"
 };

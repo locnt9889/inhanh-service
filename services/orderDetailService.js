@@ -20,6 +20,25 @@ exports.getDetailOrder = function(req, res){
     accessTokenDao.checkAccessToken(accessToken, res, orderDetailDao.getDetailOrder, callback_param);
 }
 
+exports.getAllOrder = function(req, res){
+    var accessToken = req.body.access_token;
+    var order_status = req.body.order_status  || "ALL";
+
+    var callback_param = order_status.toUpperCase();
+    accessTokenDao.checkAccessToken(accessToken, res, orderDetailDao.getAllOrder, callback_param);
+}
+
+exports.searchBetweenDate = function(req, res){
+    var accessToken = req.body.access_token;
+    var order_type = req.body.order_type  || "ALL";
+    var order_transportation = req.body.order_transportation  || "ALL";
+    var date_from = req.body.date_from  || "0000-00-00";
+    var date_to = req.body.date_to  || "0000-00-00";
+
+    var callback_param = [order_type.toUpperCase(), order_transportation.toUpperCase(), date_from, date_to];
+    accessTokenDao.checkAccessToken(accessToken, res, orderDetailDao.searchBetweenDate, callback_param);
+}
+
 exports.createNewOrder = function(req, res){
     var accessToken = req.body.access_token;
     var newOrderReq = req.body.neworder;
@@ -30,7 +49,7 @@ exports.createNewOrder = function(req, res){
     //orderDetailObj.order_id = newOrderJson.order_id ? newOrderJson.order_id : 0;
     orderDetailObj.user_id = newOrderJson.user_id ? newOrderJson.user_id : 0;
     orderDetailObj.title = newOrderJson.title ? newOrderJson.title : "";
-    orderDetailObj.description = newOrderJson.description ? newOrderJson.description : "";
+    orderDetailObj.desc = newOrderJson.desc ? newOrderJson.desc : "";
     orderDetailObj.author_phone = newOrderJson.author_phone ? newOrderJson.author_phone : "";
     orderDetailObj.author_address = newOrderJson.author_address ? newOrderJson.author_address : "";
     orderDetailObj.author_ismap = newOrderJson.author_ismap ? newOrderJson.author_ismap : false;
@@ -50,6 +69,9 @@ exports.createNewOrder = function(req, res){
     orderDetailObj.receiver_ismap = newOrderJson.receiver_ismap ? newOrderJson.receiver_ismap : false;
     orderDetailObj.receiver_map_latitude = newOrderJson.receiver_map_latitude ? newOrderJson.receiver_map_latitude : 0;
     orderDetailObj.receiver_map_logitude = newOrderJson.receiver_map_logitude ? newOrderJson.receiver_map_logitude : 0;
+    orderDetailObj.currency = newOrderJson.currency ? newOrderJson.currency : "VND";
+    orderDetailObj.shipper_id = 0;
+    orderDetailObj.status = "NEW";
     orderDetailObj.isactive = 1;
     orderDetailObj.isupdate = 0;
     orderDetailObj.created_time = new Date();
@@ -71,9 +93,12 @@ exports.updateOrder = function(req, res){
     delete(orderDetailObj.created_time);
     delete(orderDetailObj.isactive);
     delete(orderDetailObj.user_id);
+    delete(orderDetailObj.shipper_id);
+    delete(orderDetailObj.currency);
+    delete(orderDetailObj.status);
 
     orderDetailObj.title = updateOrderJson.title ? updateOrderJson.title : "";
-    orderDetailObj.description = updateOrderJson.description ? updateOrderJson.description : "";
+    orderDetailObj.desc = updateOrderJson.desc ? updateOrderJson.desc : "";
     orderDetailObj.author_phone = updateOrderJson.author_phone ? updateOrderJson.author_phone : "";
     orderDetailObj.author_address = updateOrderJson.author_address ? updateOrderJson.author_address : "";
     orderDetailObj.author_ismap = updateOrderJson.author_ismap ? updateOrderJson.author_ismap : false;
@@ -93,6 +118,7 @@ exports.updateOrder = function(req, res){
     orderDetailObj.receiver_ismap = updateOrderJson.receiver_ismap ? updateOrderJson.receiver_ismap : false;
     orderDetailObj.receiver_map_latitude = updateOrderJson.receiver_map_latitude ? updateOrderJson.receiver_map_latitude : 0;
     orderDetailObj.receiver_map_logitude = updateOrderJson.receiver_map_logitude ? updateOrderJson.receiver_map_logitude : 0;
+    //orderDetailObj.currency = updateOrderJson.currency ? updateOrderJson.currency : "VND";
     orderDetailObj.isupdate = 1;
     orderDetailObj.modifed_time = new Date();
 

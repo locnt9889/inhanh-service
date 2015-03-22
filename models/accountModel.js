@@ -38,7 +38,7 @@ function Account(){
   this.idcard_date = new Date();
   this.idcard_address = "";
   this.title = "";
-  this.description = "";
+  this.desc = "";
   this.address = "";
   this.city_id = "";
   this.created_time = new Date();
