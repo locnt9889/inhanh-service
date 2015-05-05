@@ -61,7 +61,7 @@ exports.getDetailOrder = function(res, accessTokenObj, params) {
 exports.getAllOrder = function(res, accessTokenObj, status){
     var connection = mysql.createConnection(constant.mysqlInfo);
     console.log(" +++ " + "DAO getAllOrder : ");
-    var sql_get_all_order = constant.sql_script_order.sql_search_all_order_pre;
+    var sql_get_all_order = constant.sql_script_order.sql_search_all_order_pre + " AND od.user_id = " + accessTokenObj.user_id;
     var sql_param_get_all_order = [];
     if(status.toUpperCase() !== "ALL"){
         sql_get_all_order += " AND od.status = ?";
