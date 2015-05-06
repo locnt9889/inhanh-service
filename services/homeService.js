@@ -64,6 +64,7 @@ exports.updateProfile = function(req, res){
     delete(updateAccount.type);
     delete(updateAccount.group_id);
     delete(updateAccount.group_mode);
+    delete(updateAccount.has_avatar);
 
     updateAccount.isupdate = 1;
     updateAccount.modified_time = new Date();
@@ -83,7 +84,6 @@ exports.updateProfile = function(req, res){
     updateAccount.is_map_default = updatePersonreq.is_map_default ? updatePersonreq.is_map_default : 0;
     updateAccount.latitude = updatePersonreq.latitude ? updatePersonreq.latitude : 0;
     updateAccount.longitude = updatePersonreq.longitude ? updatePersonreq.longitude : 0;
-    updateAccount.avatar_url = updatePersonreq.avatar_url ? updatePersonreq.avatar_url : "";
 
     var callback_param = updateAccount;
     accessTokenDao.checkAccessToken(accessToken, res, homeDao.updateProfile, callback_param);

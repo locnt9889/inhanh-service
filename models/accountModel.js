@@ -49,7 +49,7 @@ function Account(){
   this.is_map_default = 1;
   this.latitude = 0;
   this.longitude = 0;
-  this.avatar_url = "";
+  this.has_avatar = 0;
 }
 
 exports.Account = Account;

@@ -71,7 +71,7 @@ exports.sql_script_home = {
 }
 
 exports.sql_script_order = {
-    sql_search_all_order_pre : "SELECT od.order_id, od.title, od.desc, od.status,od.type as order_type, od.transportation as order_transportation,od.created_time as order_created_time, ac1.id as author_id, ac1.avatar_url as author_avatar_url, od.shipper_id as shipper_id, ac2.avatar_url as shipper_avatar_url, CONCAT(ac2.firstname,' ', ac2.lastname) as shipper_name, ac2.desc as shipper_desc, ac2.phone as shipper_phone FROM account ac1 INNER JOIN order_detail od ON ac1.id = od.user_id LEFT JOIN account ac2 ON od.shipper_id = ac2.id WHERE ac1.isactive = 1 AND od.isactive = 1"
+    sql_search_all_order_pre : "SELECT od.order_id, od.title, od.desc, od.status,od.type as order_type, od.transportation as order_transportation,od.created_time as order_created_time, ac1.id as author_id, ac1.has_avatar as author_has_avatar, od.shipper_id as shipper_id, ac2.has_avatar as shipper_has_avatar, CONCAT(ac2.firstname,' ', ac2.lastname) as shipper_name, ac2.desc as shipper_desc, ac2.phone as shipper_phone FROM account ac1 INNER JOIN order_detail od ON ac1.id = od.user_id LEFT JOIN account ac2 ON od.shipper_id = ac2.id WHERE ac1.isactive = 1 AND od.isactive = 1"
 }
 
 exports.sql_script_city = {
