@@ -10,6 +10,7 @@ var persons = require('./routers/personRouter');
 var homes = require('./routers/homeRouter');
 var citys = require('./routers/cityRouter');
 var orders = require('./routers/orderDetailRouter');
+var shippings = require('./routers/shippingRouter');
 
 var app = express();
 app.use(bodyParser.json());
@@ -24,6 +25,7 @@ app.use('/person', persons);
 app.use('/home', homes);
 app.use('/city', citys);
 app.use('/order', orders);
+app.use('/shipping', shippings);
 
 // Start server
 app.set('port', (process.env.PORT || 5000));

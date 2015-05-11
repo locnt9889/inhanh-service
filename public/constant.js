@@ -4,22 +4,24 @@
 
 /*local db*/
 /*exports.mysqlURL = "mysql://root:12345@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";*/
-/*exports.mysqlInfo = {
+exports.mysqlInfo = {
     host: 'localhost',
     user: 'root',
     password: '12345',
     database: 'inhanh'
-}*/
+}
 
 /*server db*/
 
 //exports.mysqlURL = "mysql://devinhanh:inhanh2014@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";
+/*
 exports.mysqlInfo = {
     host: 'localhost',
     user: 'devinhanh',
     password: 'inhanh2014',
     database: 'inhanh'
 }
+*/
 
 /*constant*/
 exports.formatTime = "YYYY-MM-DD HH:mm:ss";
@@ -35,7 +37,8 @@ exports.profileAction = {
     register : "REGISTER",
     update : "UPDATE"
 }
-
+// 7 : file avatar empty
+// 8 : file avatar error
 exports.error_code = {
     success : 0,
     error_connection_db : 100,
@@ -46,7 +49,6 @@ exports.error_code = {
     error_check_login : 4,
     error_check_access_token : 5,
     error_check_oldpassword : 6
-
 }
 
 exports.sql_script = {
@@ -84,3 +86,20 @@ exports.table_name = {
     order_detail : "order_detail",
     user_contact : "user_contact"
 };
+
+/*
+ *   Status : SHIPPER_CREATE - shipper request shipping
+ *            SHIPPER_ESTIMATE - shipper estimate cost
+ *            SHOPPER_ESTIMATE - shopper estimate cost
+ *            SHOPPER_REJECT - shopper reject
+ *            SHIPPER_ACCEPT - shipper accept cost of shopper after shopper estimate cost
+ *            SHOPPER_ACCEPT - shopper accept cost of shipper after shipper estimate cost or create cost
+ */
+exports.ship_status = {
+        shipper_create : "SHIPPER_CREATE",
+        shipper_estimate : "SHIPPER_ESTIMATE",
+        shopper_estimate : "SHOPPER_ESTIMATE",
+        shopper_reject : "SHOPPER_REJECT",
+        shipper_accept : "SHIPPER_ACCEPT",
+        shopper_accept : "SHOPPER_ACCEPT"
+}

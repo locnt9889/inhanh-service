@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.12
+-- version 4.3.11
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2015 at 08:32 PM
--- Server version: 5.6.16
--- PHP Version: 5.5.11
+-- Generation Time: May 11, 2015 at 06:28 PM
+-- Server version: 5.6.24
+-- PHP Version: 5.5.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,17 +23,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_contact`
+-- Table structure for table `order_ship_detail`
 --
 
-CREATE TABLE IF NOT EXISTS `user_contact` (
-  `id` int(8) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `contact_id` int(11) NOT NULL,
-  `created_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+CREATE TABLE IF NOT EXISTS `order_ship_detail` (
+  `id` int(11) NOT NULL,
+  `order_ship_id` int(11) NOT NULL,
+  `action_of` varchar(255) NOT NULL,
+  `comment` varchar(1024) NOT NULL,
+  `cost` double NOT NULL,
+  `ship_status` varchar(255) NOT NULL,
   `isactive` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
