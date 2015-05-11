@@ -17,6 +17,6 @@ module.exports = router;
  */
 router.post('/findall', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : order/findall");
-    orderDetailService.findAllOrderDetail(req, res);
+    //shippingService.findAllOrderDetail(req, res);
 });
 
