@@ -11,12 +11,12 @@ var shippingService = require("../services/shippingService");
 module.exports = router;
 
 /*
- * @ name : order/findall
- * @ description : findall order
+ * @ name : shipping/createShipping
+ * @ description : user request shopping
  * @ authen : locnt
  */
-router.post('/findall', function(req, res) {
-    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : order/findall");
-    //shippingService.findAllOrderDetail(req, res);
+router.post('/createShipping', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/createShipping");
+    shippingService.createShipping(req, res);
 });
 

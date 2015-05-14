@@ -6,6 +6,7 @@
 function AccessToken(){
     this.id = 0;
     this.user_id = "";
+    this.user_type = "SHIPPING";
     this.device_token = "";
     this.access_token = "";
     this.login_time = "";

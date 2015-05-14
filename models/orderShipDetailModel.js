@@ -20,3 +20,5 @@ function OrderShipDetail() {
     this.isactive = 1;
     this.created_date = new Date();
 }
+
+exports.OrderShipDetail = OrderShipDetail;

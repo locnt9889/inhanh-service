@@ -21,3 +21,5 @@ function OrderShip() {
     this.created_date = new Date();
     this.modified_date = new Date();
 }
+
+exports.OrderShip = OrderShip;

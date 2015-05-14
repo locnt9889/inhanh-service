@@ -13,7 +13,7 @@ var accessTokenModel = require('../models/accessTokenModel');
 var TableName = "access_token";
 var fieldNameId = "id";
 
-exports.insertAccessToken = function(userId, device_token, access_token){
+exports.insertAccessToken = function(userId, type, device_token, access_token){
     console.log(" +++ " + "DAO insert access token ");
     var connection = mysql.createConnection(constant.mysqlInfo);
 
@@ -22,6 +22,7 @@ exports.insertAccessToken = function(userId, device_token, access_token){
 
     var newAccessTokenModel = new accessTokenModel.AccessToken();
     newAccessTokenModel.user_id = userId;
+    newAccessTokenModel.user_type = type;
     newAccessTokenModel.device_token = device_token;
     newAccessTokenModel.access_token = access_token;
     newAccessTokenModel.login_time = new Date();

@@ -28,6 +28,7 @@ exports.contentMessage = {
     login_fail : "Username is not exist or password is incorrect.Please re-enter!",
     login_success : "Login is successfully!",
     error_access_token : "Access token error!",
-    error_check_oldpassword : "Old password is incorrect!"
+    error_check_oldpassword : "Old password is incorrect!",
+    shipping_create_error_type : "User don't have permission for create a bidding order.Please make sure you are a shipper!"
 }
 

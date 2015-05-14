@@ -7,7 +7,7 @@
 exports.mysqlInfo = {
     host: 'localhost',
     user: 'root',
-    password: '12345',
+    password: '',
     database: 'inhanh'
 }
 
@@ -48,7 +48,8 @@ exports.error_code = {
     error_check_register_username : 3,
     error_check_login : 4,
     error_check_access_token : 5,
-    error_check_oldpassword : 6
+    error_check_oldpassword : 6,
+    shipping_create_error_type : 10
 }
 
 exports.sql_script = {
@@ -84,7 +85,9 @@ exports.table_name = {
     person : "person",
     account : "account",
     order_detail : "order_detail",
-    user_contact : "user_contact"
+    user_contact : "user_contact",
+    order_ship : "order_ship",
+    order_ship_detail : "order_ship_detail"
 };
 
 /*

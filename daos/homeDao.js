@@ -176,6 +176,7 @@ exports.login = function(res, username, password, device_token){
                     console.log(" +++ query success - " + JSON.stringify({results : rows}));
                     var access_token = commonService.generateAccessToken();
                     var userId = rows[0].id;
+                    var type = rows[0].type;
                     responseModel.results = {
                         access_token : access_token,
                         id : rows[0].id,
@@ -187,7 +188,7 @@ exports.login = function(res, username, password, device_token){
                     responseModel.statusErrorCode = constant.error_code.success;
 
                     //insert access token
-                    accessTokenDao.insertAccessToken(userId, device_token, access_token);
+                    accessTokenDao.insertAccessToken(userId, type, device_token, access_token);
                     connection.end();
                     res.send(responseModel);
                 }
