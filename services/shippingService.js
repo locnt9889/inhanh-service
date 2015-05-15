@@ -26,3 +26,13 @@ exports.createShipping = function(req, res){
     var params = [newOrderShip, newOrderShipDetail];
     accessTokenDao.checkAccessToken(accessToken, res, shippingDao.createShipping, params);
 }
+
+exports.updateCostShopping = function(req, res){
+    var accessToken = req.body.access_token;
+    var orderShipId = req.body.order_ship_id;
+    var costUpdate = req.body.cost_update;
+    var comment = req.body.comment;
+
+    var params = [orderShipId, costUpdate, comment];
+    accessTokenDao.checkAccessToken(accessToken, res, shippingDao.updateCostShopping, params);
+}

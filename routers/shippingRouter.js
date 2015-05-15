@@ -20,3 +20,13 @@ router.post('/createShipping', function(req, res) {
     shippingService.createShipping(req, res);
 });
 
+/*
+ * @ name : shipping/updateCostShopping
+ * @ description : update Cost Shopping
+ * @ authen : locnt
+ */
+router.post('/updateCostShopping', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/updateCostShopping");
+    shippingService.updateCostShopping(req, res);
+});
+

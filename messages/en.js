@@ -18,7 +18,8 @@ exports.contentMessage = {
         getContact : "get all contact",
         removeContacts : "remove list contact",
         getAllOrder : "get all order by status",
-        searchAllOrderBetweenDate : "search all order between date"
+        searchAllOrderBetweenDate : "search all order between date",
+        updateOrderShip : "update order ship"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "Query with #1 is failure!",
