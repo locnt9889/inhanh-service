@@ -149,7 +149,7 @@ exports.updateCostShipping = function(res, accessTokenObj, params) {
  * @ description : rejectShipping
  * @ authen : locnt
  */
-exports.rejectShipping = function(res, accessTokenObj, params) {
+exports.acceptOrRejectShipping = function(res, accessTokenObj, params) {
     var responseModel = new mysqlResponseModel.MysqlResponse();
     var orderShipId =  params[0];
     var orderShipIdNum =  0;
@@ -159,6 +159,13 @@ exports.rejectShipping = function(res, accessTokenObj, params) {
         console.log("Order ship id is not a number!");
     }
     var comment =  params[1];
+    var action =  params[2];
+    var statusAction = "";
+    if(action == "REJECT"){
+        statusAction = constant.ship_status.shopper_reject;
+    }else if(action == "ACCEPT"){
+        statusAction = constant.ship_status.shopper_accept;
+    }
 
     var sqlCheckOrderShipAndShopping = constant.sql_script_order.sql_check_order_ship_and_shopping;
     var connection = mysql.createConnection(constant.mysqlInfo);
@@ -186,22 +193,22 @@ exports.rejectShipping = function(res, accessTokenObj, params) {
                 }else if(rows.length == 0){
                     responseModel.errorsObject = {};
                     var actionCheckOrderShipAndShopping = message.functionName.checkOrderShipAndShopping;
-                    responseModel.errorsMessage = message.shipping_shopper_reject_error_permission;
+                    responseModel.errorsMessage = message.shipping_shopper_accept_reject_error_permission;
                     responseModel.results = {};
-                    responseModel.statusErrorCode = constant.error_code.shipping_shopper_reject_error_permission;
+                    responseModel.statusErrorCode = constant.error_code.shipping_shopper_accept_reject_error_permission;
                     res.send(responseModel);
                 }else {
                     var newOrderShipDetail = new orderShipDetailModel.OrderShipDetail();
                     newOrderShipDetail.comment = comment;
                     newOrderShipDetail.action_of = "SHOPPER";
-                    newOrderShipDetail.ship_status = constant.ship_status.shopper_reject;
+                    newOrderShipDetail.ship_status = statusAction;
 
                     //save data
                     var tableNameOrderShipDetail = constant.table_name.order_ship_detail;
                     var sqlUpdateCostShipOrder = constant.sql_script_order.sql_update_cost_ship_order;
                     var updateDataSql = "";
 
-                    var updateDataSql = "ship_status = '" + constant.ship_status.shopper_reject + "'";
+                    var updateDataSql = "ship_status = '" + statusAction + "'";
 
                     var sqlUpdateCostShipOrderBuilder = sqlUpdateCostShipOrder.replace("#update", updateDataSql);
                     var connection = mysql.createConnection(constant.mysqlInfo);

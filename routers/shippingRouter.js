@@ -37,6 +37,15 @@ router.post('/updateCostShipping', function(req, res) {
  */
 router.post('/rejectShipping', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/rejectShipping");
-    shippingService.rejectShipping(req, res);
+    shippingService.acceptOrRejectShipping(req, res, "REJECT");
 });
 
+/*
+ * @ name : shipping/acceptShipping
+ * @ description : accept shipping
+ * @ authen : locnt
+ */
+router.post('/acceptShipping', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/acceptShipping");
+    shippingService.acceptOrRejectShipping(req, res, "ACCEPT");
+});

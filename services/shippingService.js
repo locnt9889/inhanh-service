@@ -37,11 +37,11 @@ exports.updateCostShipping = function(req, res){
     accessTokenDao.checkAccessToken(accessToken, res, shippingDao.updateCostShipping, params);
 }
 
-exports.rejectShipping = function(req, res){
+exports.acceptOrRejectShipping = function(req, res, action){
     var accessToken = req.body.access_token;
     var orderShipId = req.body.order_ship_id;
     var comment = req.body.comment;
 
-    var params = [orderShipId, comment];
-    accessTokenDao.checkAccessToken(accessToken, res, shippingDao.rejectShipping, params);
+    var params = [orderShipId, comment, action];
+    accessTokenDao.checkAccessToken(accessToken, res, shippingDao.acceptOrRejectShipping, params);
 }

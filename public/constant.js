@@ -50,7 +50,7 @@ exports.error_code = {
     error_check_access_token : 5,
     error_check_oldpassword : 6,
     shipping_create_error_type : 10,
-    shipping_shopper_reject_error_permission : 11
+    shipping_shopper_accept_reject_error_permission : 11
 }
 
 exports.sql_script = {
