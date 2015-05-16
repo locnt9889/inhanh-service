@@ -49,3 +49,13 @@ router.post('/acceptShipping', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/acceptShipping");
     shippingService.acceptOrRejectShipping(req, res, "ACCEPT");
 });
+
+/*
+ * @ name : shipping/acceptShipping
+ * @ description : accept shipping
+ * @ authen : locnt
+ */
+router.post('/getShippingByOrderDetail', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/getShippingByOrderDetail");
+    shippingService.getShippingByOrderDetail(req, res);
+});

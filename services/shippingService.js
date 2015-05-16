@@ -45,3 +45,11 @@ exports.acceptOrRejectShipping = function(req, res, action){
     var params = [orderShipId, comment, action];
     accessTokenDao.checkAccessToken(accessToken, res, shippingDao.acceptOrRejectShipping, params);
 }
+
+exports.getShippingByOrderDetail = function(req, res){
+    var accessToken = req.body.access_token;
+    var orderId = req.body.order_id;
+
+    var params = orderId;
+    accessTokenDao.checkAccessToken(accessToken, res, shippingDao.getShippingByOrderDetail, params);
+}

@@ -77,7 +77,8 @@ exports.sql_script_home = {
 exports.sql_script_order = {
     sql_search_all_order_pre : "SELECT od.order_id, od.title, od.desc, od.status,od.type as order_type, od.transportation as order_transportation,od.created_time as order_created_time, ac1.id as author_id, ac1.has_avatar as author_has_avatar, od.shipper_id as shipper_id, ac2.has_avatar as shipper_has_avatar, CONCAT(ac2.firstname,' ', ac2.lastname) as shipper_name, ac2.desc as shipper_desc, ac2.phone as shipper_phone FROM account ac1 INNER JOIN order_detail od ON ac1.id = od.user_id LEFT JOIN account ac2 ON od.shipper_id = ac2.id WHERE ac1.isactive = 1 AND od.isactive = 1",
     sql_update_cost_ship_order : "UPDATE order_ship SET #update WHERE order_ship_id = ? AND isactive = 1",
-    sql_check_order_ship_and_shopping : "SELECT od.* FROM order_detail od INNER JOIN order_ship os ON od.order_id = os.order_id WHERE od.user_id = ? AND os.order_ship_id = ? AND od.isactive = 1"
+    sql_check_order_ship_and_shopping : "SELECT od.* FROM order_detail od INNER JOIN order_ship os ON od.order_id = os.order_id WHERE od.user_id = ? AND os.order_ship_id = ? AND od.isactive = 1",
+    sql_get_shipping_by_order : "SELECT * FROM order_ship WHERE order_ship_id = ? AND isactive = 1"
 }
 
 exports.sql_script_city = {
