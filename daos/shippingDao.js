@@ -276,13 +276,58 @@ exports.getShippingByOrderDetail = function(res, accessTokenObj, orderDetailId) 
                         message : err.message,
                         sqlState : err.sqlState
                     };
-                    var actionCheckOrderShipAndShopping = message.functionName.checkOrderShipAndShopping;
-                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionCheckOrderShipAndShopping);
+                    var actionGetShippingByOrderDetail = message.functionName.get_shipping_by_order_detail;
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionGetShippingByOrderDetail);
                     responseModel.results = {};
                     responseModel.statusErrorCode = constant.error_code.error_system_query;
                     res.send(responseModel);
                 }else {
                     console.log(" +++ getShippingByOrderDetail query is successfully - ");
+                    responseModel.errorsObject = {};
+                    responseModel.errorsMessage = "";
+                    responseModel.results = rows;
+                    responseModel.statusErrorCode = constant.error_code.success;
+                    res.send(responseModel);
+                }
+            });
+            connection.end();
+        }
+    });
+}
+
+/*
+ * @ name : getDetailOrderShip
+ * @ description : getDetailOrderShip
+ * @ authen : locnt
+ */
+exports.getDetailOrderShip = function(res, accessTokenObj, orderShipId) {
+    var responseModel = new mysqlResponseModel.MysqlResponse();
+
+    var sqlGetDetailOrderShip = constant.sql_script_order.sql_get_detail_by_shipping;
+    var connection = mysql.createConnection(constant.mysqlInfo);
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ getDetailOrderShip connect error - " + err);
+            mysqlHelper.errorConnection(res, err,connection);
+        }else{
+            console.log(" +++ getDetailOrderShip connect success");
+            connection.query(sqlGetDetailOrderShip, [orderShipId], function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    var actionGetDetailOrderShip = message.functionName.get_detail_order_ship;
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionGetDetailOrderShip);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else {
+                    console.log(" +++ getDetailOrderShip query is successfully - ");
                     responseModel.errorsObject = {};
                     responseModel.errorsMessage = "";
                     responseModel.results = rows;

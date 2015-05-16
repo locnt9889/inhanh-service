@@ -51,11 +51,21 @@ router.post('/acceptShipping', function(req, res) {
 });
 
 /*
- * @ name : shipping/acceptShipping
+ * @ name : shipping/getShippingByOrderDetail
  * @ description : accept shipping
  * @ authen : locnt
  */
 router.post('/getShippingByOrderDetail', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/getShippingByOrderDetail");
     shippingService.getShippingByOrderDetail(req, res);
+});
+
+/*
+ * @ name : shipping/getDetailOrderShip
+ * @ description : getDetailOrderShip
+ * @ authen : locnt
+ */
+router.post('/getDetailOrderShip', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/getDetailOrderShip");
+    shippingService.getDetailOrderShip(req, res);
 });

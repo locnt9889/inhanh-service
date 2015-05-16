@@ -20,7 +20,9 @@ exports.contentMessage = {
         getAllOrder : "get all order by status",
         searchAllOrderBetweenDate : "search all order between date",
         updateOrderShip : "update order ship",
-        checkOrderShipAndShopping : "check Order Ship And Shopping"
+        checkOrderShipAndShopping : "check Order Ship And Shopping",
+        get_shipping_by_order_detail : "get shipping by order detail",
+        get_detail_order_ship : "get detail order ship"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "Query with #1 is failure!",
