@@ -19,7 +19,8 @@ exports.contentMessage = {
         removeContacts : "remove list contact",
         getAllOrder : "get all order by status",
         searchAllOrderBetweenDate : "search all order between date",
-        updateOrderShip : "update order ship"
+        updateOrderShip : "update order ship",
+        checkOrderShipAndShopping : "check Order Ship And Shopping"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "Query with #1 is failure!",
@@ -30,6 +31,7 @@ exports.contentMessage = {
     login_success : "Login is successfully!",
     error_access_token : "Access token error!",
     error_check_oldpassword : "Old password is incorrect!",
-    shipping_create_error_type : "User don't have permission for create a bidding order.Please make sure you are a shipper!"
+    shipping_create_error_type : "User don't have permission for create a bidding order.Please make sure you are a shipper!",
+    shipping_shopper_reject_error_permission : "You don't have permission for rejecting order shipping"
 }
 

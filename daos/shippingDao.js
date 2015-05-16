@@ -68,11 +68,11 @@ exports.createShipping = function(res, accessTokenObj, params) {
 }
 
 /*
- * @ name : updateCostShopping
- * @ description : updateCostShopping
+ * @ name : updateCostShipping
+ * @ description : updateCostShipping
  * @ authen : locnt
  */
-exports.updateCostShopping = function(res, accessTokenObj, params) {
+exports.updateCostShipping = function(res, accessTokenObj, params) {
     var responseModel = new mysqlResponseModel.MysqlResponse();
     var orderShipId =  params[0];
     var orderShipIdNum =  0;
@@ -137,6 +137,103 @@ exports.updateCostShopping = function(res, accessTokenObj, params) {
                 }else {
                     console.log(" +++ query success - " + JSON.stringify({results : rows}));
                     mysqlDao.addNew(res, tableNameOrderShipDetail, newOrderShipDetail);
+                }
+            });
+            connection.end();
+        }
+    });
+}
+
+/*
+ * @ name : rejectShipping
+ * @ description : rejectShipping
+ * @ authen : locnt
+ */
+exports.rejectShipping = function(res, accessTokenObj, params) {
+    var responseModel = new mysqlResponseModel.MysqlResponse();
+    var orderShipId =  params[0];
+    var orderShipIdNum =  0;
+    try{
+        orderShipIdNum = parseFloat(orderShipId);
+    }catch (e){
+        console.log("Order ship id is not a number!");
+    }
+    var comment =  params[1];
+
+    var sqlCheckOrderShipAndShopping = constant.sql_script_order.sql_check_order_ship_and_shopping;
+    var connection = mysql.createConnection(constant.mysqlInfo);
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ CheckOrderShipAndShopping connect error - " + err)
+            mysqlHelper.errorConnection(res, err,connection);
+        }else{
+            console.log(" +++ CheckOrderShipAndShopping connect success");
+            connection.query(sqlCheckOrderShipAndShopping, [accessTokenObj.user_id, orderShipIdNum], function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    var actionCheckOrderShipAndShopping = message.functionName.checkOrderShipAndShopping;
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionCheckOrderShipAndShopping);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else if(rows.length == 0){
+                    responseModel.errorsObject = {};
+                    var actionCheckOrderShipAndShopping = message.functionName.checkOrderShipAndShopping;
+                    responseModel.errorsMessage = message.shipping_shopper_reject_error_permission;
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.shipping_shopper_reject_error_permission;
+                    res.send(responseModel);
+                }else {
+                    var newOrderShipDetail = new orderShipDetailModel.OrderShipDetail();
+                    newOrderShipDetail.comment = comment;
+                    newOrderShipDetail.action_of = "SHOPPER";
+                    newOrderShipDetail.ship_status = constant.ship_status.shopper_reject;
+
+                    //save data
+                    var tableNameOrderShipDetail = constant.table_name.order_ship_detail;
+                    var sqlUpdateCostShipOrder = constant.sql_script_order.sql_update_cost_ship_order;
+                    var updateDataSql = "";
+
+                    var updateDataSql = "ship_status = '" + constant.ship_status.shopper_reject + "'";
+
+                    var sqlUpdateCostShipOrderBuilder = sqlUpdateCostShipOrder.replace("#update", updateDataSql);
+                    var connection = mysql.createConnection(constant.mysqlInfo);
+
+                    connection.connect(function(err,connect){
+                        if(err){
+                            console.log(" +++ reject shipping connect error - " + err)
+                            mysqlHelper.errorConnection(res, err,connection);
+                        }else{
+                            console.log(" +++ reject shipping connect success");
+                            connection.query(sqlUpdateCostShipOrderBuilder, [orderShipIdNum], function(err, rows, fields) {
+                                if (err) {
+                                    console.log(" +++ query error - " + err);
+                                    responseModel.errorsObject = {
+                                        code : err.code,
+                                        errno : err.errno,
+                                        message : err.message,
+                                        sqlState : err.sqlState
+                                    };
+                                    var actionUpdateOrderShip = message.functionName.updateOrderShip;
+                                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionUpdateOrderShip);
+                                    responseModel.results = {};
+                                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                                    res.send(responseModel);
+                                }else {
+                                    console.log(" +++ query success - " + JSON.stringify({results : rows}));
+                                    mysqlDao.addNew(res, tableNameOrderShipDetail, newOrderShipDetail);
+                                }
+                            });
+                            connection.end();
+                        }
+                    });
                 }
             });
             connection.end();

@@ -25,8 +25,18 @@ router.post('/createShipping', function(req, res) {
  * @ description : update Cost Shopping
  * @ authen : locnt
  */
-router.post('/updateCostShopping', function(req, res) {
-    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/updateCostShopping");
-    shippingService.updateCostShopping(req, res);
+router.post('/updateCostShipping', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/updateCostShipping");
+    shippingService.updateCostShipping(req, res);
+});
+
+/*
+ * @ name : shipping/rejectShipping
+ * @ description : reject shipping
+ * @ authen : locnt
+ */
+router.post('/rejectShipping', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/rejectShipping");
+    shippingService.rejectShipping(req, res);
 });
 

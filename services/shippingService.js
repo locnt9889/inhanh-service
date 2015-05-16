@@ -27,12 +27,21 @@ exports.createShipping = function(req, res){
     accessTokenDao.checkAccessToken(accessToken, res, shippingDao.createShipping, params);
 }
 
-exports.updateCostShopping = function(req, res){
+exports.updateCostShipping = function(req, res){
     var accessToken = req.body.access_token;
     var orderShipId = req.body.order_ship_id;
     var costUpdate = req.body.cost_update;
     var comment = req.body.comment;
 
     var params = [orderShipId, costUpdate, comment];
-    accessTokenDao.checkAccessToken(accessToken, res, shippingDao.updateCostShopping, params);
+    accessTokenDao.checkAccessToken(accessToken, res, shippingDao.updateCostShipping, params);
+}
+
+exports.rejectShipping = function(req, res){
+    var accessToken = req.body.access_token;
+    var orderShipId = req.body.order_ship_id;
+    var comment = req.body.comment;
+
+    var params = [orderShipId, comment];
+    accessTokenDao.checkAccessToken(accessToken, res, shippingDao.rejectShipping, params);
 }
