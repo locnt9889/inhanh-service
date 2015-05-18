@@ -4,24 +4,22 @@
 
 /*local db*/
 /*exports.mysqlURL = "mysql://root:12345@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";*/
-exports.mysqlInfo = {
+/*exports.mysqlInfo = {
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'inhanh'
-}
+}*/
 
 /*server db*/
 
 //exports.mysqlURL = "mysql://devinhanh:inhanh2014@localhost:3306/inhanh?reconnect=true&charset=UTF8_GENERAL_CI&timezone=+0700'";
-/*
 exports.mysqlInfo = {
     host: 'localhost',
     user: 'devinhanh',
     password: 'inhanh2014',
     database: 'inhanh'
 }
-*/
 
 /*constant*/
 exports.formatTime = "YYYY-MM-DD HH:mm:ss";
