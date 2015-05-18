@@ -208,10 +208,11 @@ exports.acceptOrRejectShipping = function(res, accessTokenObj, params) {
                     //save data
                     var tableNameOrderShipDetail = constant.table_name.order_ship_detail;
                     var sqlUpdateCostShipOrder = constant.sql_script_order.sql_update_cost_ship_order;
-                    var updateDataSql = "";
 
                     var updateDataSql = "ship_status = '" + statusAction + "'";
-
+                    if(action == "ACCEPT"){
+                        updateDataSql = updateDataSql + ", shopper_cost = shipper_cost";
+                    }
                     var sqlUpdateCostShipOrderBuilder = sqlUpdateCostShipOrder.replace("#update", updateDataSql);
                     var connection = mysql.createConnection(constant.mysqlInfo);
 
