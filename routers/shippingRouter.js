@@ -61,11 +61,21 @@ router.post('/getShippingByOrderDetail', function(req, res) {
 });
 
 /*
- * @ name : shipping/getDetailOrderShip
- * @ description : getDetailOrderShip
+ * @ name : shipping/getOrderShipDetailList
+ * @ description : getOrderShipDetailList
  * @ authen : locnt
  */
-router.post('/getDetailOrderShip', function(req, res) {
-    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/getDetailOrderShip");
+router.post('/getOrderShipDetailList', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/getOrderShipDetailList");
     shippingService.getDetailOrderShip(req, res);
+});
+
+/*
+ * @ name : shipping/getShippingInfo
+ * @ description : getShippingInfo
+ * @ authen : locnt
+ */
+router.post('/getShippingInfo', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/getShippingInfo");
+    shippingService.getShippingInfo(req, res);
 });

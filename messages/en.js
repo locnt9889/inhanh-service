@@ -22,6 +22,7 @@ exports.contentMessage = {
         updateOrderShip : "update order ship",
         checkOrderShipAndShopping : "check Order Ship And Shopping",
         get_shipping_by_order_detail : "get shipping by order detail",
+        get_shipping_info : "get shipping info",
         get_detail_order_ship : "get detail order ship"
     },
     errorConnectionDB : "Connection to Database is failure!",

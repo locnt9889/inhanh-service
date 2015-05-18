@@ -340,5 +340,48 @@ exports.getDetailOrderShip = function(res, accessTokenObj, orderShipId) {
     });
 }
 
+/*
+ * @ name : getShippingInfo
+ * @ description : getShippingInfo
+ * @ authen : locnt
+ */
+exports.getShippingInfo = function(res, accessTokenObj, orderShipId) {
+    var responseModel = new mysqlResponseModel.MysqlResponse();
 
+    var sqlGetShippingInfo = constant.sql_script_order.sql_get_shipping_info;
+    var connection = mysql.createConnection(constant.mysqlInfo);
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ getShippingInfo connect error - " + err);
+            mysqlHelper.errorConnection(res, err,connection);
+        }else{
+            console.log(" +++ getShippingInfo connect success");
+            connection.query(sqlGetShippingInfo, [orderShipId], function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    var actionGetShippingInfo = message.functionName.get_shipping_info;
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionGetShippingInfo);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else {
+                    console.log(" +++ getShippingInfo query is successfully - ");
+                    responseModel.errorsObject = {};
+                    responseModel.errorsMessage = "";
+                    responseModel.results = rows;
+                    responseModel.statusErrorCode = constant.error_code.success;
+                    res.send(responseModel);
+                }
+            });
+            connection.end();
+        }
+    });
+}
 

@@ -61,3 +61,11 @@ exports.getDetailOrderShip = function(req, res){
     var params = orderShipId;
     accessTokenDao.checkAccessToken(accessToken, res, shippingDao.getDetailOrderShip, params);
 }
+
+exports.getShippingInfo = function(req, res){
+    var accessToken = req.body.access_token;
+    var orderShipId = req.body.order_ship_id;
+
+    var params = orderShipId;
+    accessTokenDao.checkAccessToken(accessToken, res, shippingDao.getShippingInfo, params);
+}
