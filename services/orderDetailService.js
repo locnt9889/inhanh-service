@@ -127,3 +127,11 @@ exports.updateOrder = function(req, res){
     var callback_param = [orderDetailObj,orderId];
     accessTokenDao.checkAccessToken(accessToken, res, orderDetailDao.updateOrder, callback_param);
 }
+
+exports.getOrderNoBidByCity = function(req, res){
+    var accessToken = req.body.access_token;
+    var fromCityCode = req.body.from_city_code || "NoCityCode";
+
+    var callback_param = fromCityCode;
+    accessTokenDao.checkAccessToken(accessToken, res, orderDetailDao.getOrderNoBidByCity, callback_param);
+}

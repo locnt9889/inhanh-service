@@ -74,3 +74,14 @@ router.post('/searchBetweenDate', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : order/searchBetweenDate");
     orderDetailService.searchBetweenDate(req, res);
 });
+
+/*
+ * @ name : order/getOrderNoBidByCity
+ * @ description : getOrderNoBidByCity
+ * @ authen : locnt
+ * @ param : from_city_code : string
+ */
+router.post('/getOrderNoBidByCity', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : order/getOrderNoBidByCity");
+    orderDetailService.getOrderNoBidByCity(req, res);
+});

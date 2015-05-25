@@ -168,3 +168,51 @@ exports.searchBetweenDate = function(res, accessTokenObj, param_array){
     });
 }
 
+/*
+ * @ name : order/getOrderNoBidByCity
+ * @ description : getOrderNoBidByCity
+ * @ authen : locnt
+ * @ param : access_token : access_token
+ * @ param : fromCityCode : fromCityCode
+ */
+exports.getOrderNoBidByCity = function(res, accessTokenObj, fromCityCode){
+    var connection = mysql.createConnection(constant.mysqlInfo);
+    console.log(" +++ " + "DAO getOrderNoBidByCity : ");
+    var sql_get_all_order = constant.sql_script_order.sql_search_all_order_pre + " AND od.from_city_code = '" + fromCityCode + "'";
+    var sql_param_get_all_order = [];
+
+    var actionName = message.functionName.sql_get_order_without_shipping_accept;
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ get getOrderNoBidByCity error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
+        }else{
+            console.log(" +++ get getAllOrder connect success");
+            var responseModel = new mysqlResponseModel.MysqlResponse();
+            connection.query(sql_get_all_order, sql_param_get_all_order, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ getOrderNoBidByCity query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else {
+                    console.log(" +++ getOrderNoBidByCity query is successfully - ");
+                    responseModel.errorsObject = {};
+                    responseModel.errorsMessage = "";
+                    responseModel.results = rows;
+                    responseModel.statusErrorCode = constant.error_code.success;
+                    res.send(responseModel);
+                }
+            });
+            connection.end();
+        }
+    });
+}

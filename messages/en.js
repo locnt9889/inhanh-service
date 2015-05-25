@@ -18,6 +18,7 @@ exports.contentMessage = {
         getContact : "get all contact",
         removeContacts : "remove list contact",
         getAllOrder : "get all order by status",
+        sql_get_order_without_shipping_accept : "sql get order without shipping accept",
         searchAllOrderBetweenDate : "search all order between date",
         updateOrderShip : "update order ship",
         checkOrderShipAndShopping : "check Order Ship And Shopping",
