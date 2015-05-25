@@ -150,7 +150,7 @@ exports.updateCostShipping = function(res, accessTokenObj, params) {
  * @ description : rejectShipping
  * @ authen : locnt
  */
-exports.acceptOrRejectShipping = function(res, accessTokenObj, params) {
+exports.rejectShipping = function(res, accessTokenObj, params) {
     var responseModel = new mysqlResponseModel.MysqlResponse();
     var orderShipId =  params[0];
     var orderShipIdNum =  0;
@@ -160,13 +160,7 @@ exports.acceptOrRejectShipping = function(res, accessTokenObj, params) {
         console.log("Order ship id is not a number!");
     }
     var comment =  params[1];
-    var action =  params[2];
-    var statusAction = "";
-    if(action == "REJECT"){
-        statusAction = constant.ship_status.shopper_reject;
-    }else if(action == "ACCEPT"){
-        statusAction = constant.ship_status.shopper_accept;
-    }
+    var statusAction = constant.ship_status.shopper_reject;
 
     var sqlCheckOrderShipAndShopping = constant.sql_script_order.sql_check_order_ship_and_shopping;
     var connection = mysql.createConnection(constant.mysqlInfo);
@@ -210,9 +204,6 @@ exports.acceptOrRejectShipping = function(res, accessTokenObj, params) {
                     var sqlUpdateCostShipOrder = constant.sql_script_order.sql_update_cost_ship_order;
 
                     var updateDataSql = "ship_status = '" + statusAction + "'";
-                    if(action == "ACCEPT"){
-                        updateDataSql = updateDataSql + ", shopper_cost = shipper_cost";
-                    }
                     var sqlUpdateCostShipOrderBuilder = sqlUpdateCostShipOrder.replace("#update", updateDataSql);
                     var connection = mysql.createConnection(constant.mysqlInfo);
 
@@ -247,6 +238,144 @@ exports.acceptOrRejectShipping = function(res, accessTokenObj, params) {
                 }
             });
             connection.end();
+        }
+    });
+}
+
+/*
+ * @ name : acceptShipping
+ * @ description : acceptShipping
+ * @ authen : locnt
+ */
+exports.acceptShipping = function(res, accessTokenObj, params) {
+    var responseModel = new mysqlResponseModel.MysqlResponse();
+    var orderShipId =  params[0];
+    var orderShipIdNum =  0;
+    try{
+        orderShipIdNum = parseFloat(orderShipId);
+    }catch (e){
+        console.log("Order ship id is not a number!");
+    }
+    var comment =  params[1];
+    var statusAction = constant.ship_status.shopper_accept;
+
+    var sqlCheckOrderShipAndShopping = constant.sql_script_order.sql_check_order_ship_and_shopping;
+    var connection = mysql.createConnection(constant.mysqlInfo);
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ CheckOrderShipAndShopping connect error - " + err)
+            mysqlHelper.errorConnection(res, err,connection);
+        }else{
+            console.log(" +++ CheckOrderShipAndShopping connect success");
+            connection.query(sqlCheckOrderShipAndShopping, [accessTokenObj.user_id, orderShipIdNum], function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    var actionCheckOrderShipAndShopping = message.functionName.checkOrderShipAndShopping;
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionCheckOrderShipAndShopping);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else if(rows.length == 0){
+                    responseModel.errorsObject = {};
+                    var actionCheckOrderShipAndShopping = message.functionName.checkOrderShipAndShopping;
+                    responseModel.errorsMessage = message.shipping_shopper_accept_reject_error_permission;
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.shipping_shopper_accept_reject_error_permission;
+                    res.send(responseModel);
+                }else {
+                    var newOrderShipDetail = new orderShipDetailModel.OrderShipDetail();
+                    newOrderShipDetail.comment = comment;
+                    newOrderShipDetail.action_of = "SHOPPER";
+                    newOrderShipDetail.ship_status = statusAction;
+                    newOrderShipDetail.order_ship_id = orderShipIdNum;
+
+                    //save data
+                    var tableNameOrderShipDetail = constant.table_name.order_ship_detail;
+                    var sqlUpdateCostShipOrder = constant.sql_script_order.sql_update_cost_ship_order;
+
+                    var updateDataSql = "ship_status = '" + statusAction + "'";
+                    updateDataSql = updateDataSql + ", shopper_cost = shipper_cost";
+                    var sqlUpdateCostShipOrderBuilder = sqlUpdateCostShipOrder.replace("#update", updateDataSql);
+
+                    var connection = mysql.createConnection(constant.mysqlInfo);
+
+                    connection.connect(function(err,connect){
+                        if(err){
+                            console.log(" +++ reject shipping connect error - " + err)
+                            mysqlHelper.errorConnection(res, err,connection);
+                        }else{
+                            console.log(" +++ reject shipping connect success");
+                            connection.query(sqlUpdateCostShipOrderBuilder, [orderShipIdNum], function(err, rows, fields) {
+                                if (err) {
+                                    console.log(" +++ query error - " + err);
+                                    responseModel.errorsObject = {
+                                        code : err.code,
+                                        errno : err.errno,
+                                        message : err.message,
+                                        sqlState : err.sqlState
+                                    };
+                                    var actionUpdateOrderShip = message.functionName.updateOrderShip;
+                                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionUpdateOrderShip);
+                                    responseModel.results = {};
+                                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                                    res.send(responseModel);
+                                }else {
+                                    console.log(" +++ query success - " + JSON.stringify({results : rows}));
+                                    console.log(" +++ getShippingInfo connect success");
+                                    var sqlGetShippingInfo = constant.sql_script_order.sql_get_shipping_info;
+                                    connection.query(sqlGetShippingInfo, [orderShipIdNum], function(err, rows, fields) {
+                                        if (err) {
+                                            console.log(" +++ query error - " + err);
+                                            responseModel.errorsObject = {
+                                                code : err.code,
+                                                errno : err.errno,
+                                                message : err.message,
+                                                sqlState : err.sqlState
+                                            };
+                                            var actionGetShippingInfo = message.functionName.get_shipping_info;
+                                            responseModel.errorsMessage = message.errorQuery.replace('#1',actionGetShippingInfo);
+                                            responseModel.results = {};
+                                            responseModel.statusErrorCode = constant.error_code.error_system_query;
+                                            res.send(responseModel);
+                                        }else if(rows.length > 0){
+                                            console.log(" +++ getShippingInfo success");
+                                            var sqlUpdateShipperForOrder = constant.sql_script_order.sql_update_shipper_for_order_detail;
+                                            connection.query(sqlUpdateShipperForOrder, [rows[0].shipper_id, rows[0].order_id], function(err, rows, fields) {
+                                                if (err) {
+                                                    console.log(" +++ query error - " + err);
+                                                    responseModel.errorsObject = {
+                                                        code : err.code,
+                                                        errno : err.errno,
+                                                        message : err.message,
+                                                        sqlState : err.sqlState
+                                                    };
+                                                    var sqlUpdateShipperForOrder = message.functionName.get_shipping_info;
+                                                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionGetShippingInfo);
+                                                    responseModel.results = {};
+                                                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                                                    res.send(responseModel);
+                                                }else {
+                                                    console.log(" +++ sqlUpdateShipperForOrder query is successfully - ");
+                                                    mysqlDao.addNew(res, tableNameOrderShipDetail, newOrderShipDetail);
+                                                }
+                                            });
+                                            connection.end();
+                                        }
+                                    });
+
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     });
 }

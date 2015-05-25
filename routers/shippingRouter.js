@@ -37,7 +37,7 @@ router.post('/updateCostShipping', function(req, res) {
  */
 router.post('/rejectShipping', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/rejectShipping");
-    shippingService.acceptOrRejectShipping(req, res, "REJECT");
+    shippingService.rejectShipping(req, res);
 });
 
 /*
@@ -47,7 +47,7 @@ router.post('/rejectShipping', function(req, res) {
  */
 router.post('/acceptShipping', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : shipping/acceptShipping");
-    shippingService.acceptOrRejectShipping(req, res, "ACCEPT");
+    shippingService.acceptShipping(req, res);
 });
 
 /*
