@@ -12,7 +12,8 @@ function OrderDetail(){
     this.author_ismap = false;
     this.author_map_latitude = 0;
     this.author_map_longitude = 0;
-    this.city_code = "";
+    this.from_city_code = "";
+    this.to_city_code = "";
     this.order_date = new Date();
     this.order_date_expired = new Date();
     this.order_time_expect = "";
