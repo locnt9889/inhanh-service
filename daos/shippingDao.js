@@ -58,10 +58,28 @@ exports.createShipping = function(res, accessTokenObj, params) {
                     }else {
                         console.log(" +++ query success - " + JSON.stringify({results : rows}));
                         newOrderShipDetail.order_ship_id = rows.insertId;
-                        mysqlDao.addNew(res, tableNameOrderShipDetail, newOrderShipDetail);
+
+                        //mysqlDao.addNew(res, tableNameOrderShipDetail, newOrderShipDetail);
+                        console.log(" +++ " + "DAO add new : " + tableNameOrderShipDetail);
+                        var connection = mysql.createConnection(constant.mysqlInfo);
+                        var sql_insert = constant.sql_script.sql_insert.replace('#table', tableNameOrderShipDetail);
+                        var sql_param = newOrderShipDetail;
+
+                        //mysqlHelper.query(res, message.functionName.addNew, connection, sql_insert, sql_param);
+                        var responseModel = new mysqlResponseModel.MysqlResponse();
+                        connection.query(sql_insert, sql_param, function(err, rows1, fields) {
+                            if (err) {
+                                console.log(" +++ query error - " + err);
+                            }else {
+                                console.log(" +++ query success - " + JSON.stringify({results : rows1}));
+                            }
+                        });
+                        connection.end();
+                        responseModel.results = {"order_shipping_id" : newOrderShipDetail.order_ship_id};
+                        responseModel.statusErrorCode = 0;
+                        res.send(responseModel);
                     }
                 });
-                connection.end();
             }
         });
     }
@@ -507,6 +525,7 @@ exports.getShippingInfo = function(res, accessTokenObj, orderShipId) {
                     responseModel.errorsMessage = "";
                     responseModel.results = rows;
                     responseModel.statusErrorCode = constant.error_code.success;
+
                     res.send(responseModel);
                 }
             });

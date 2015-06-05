@@ -48,7 +48,75 @@ exports.updateOrder = function(res, accessTokenObj, params) {
  */
 exports.getDetailOrder = function(res, accessTokenObj, params) {
     //newOrderObj.user_id = accessTokenObj.user_id;
-    mysqlDao.findById(res, TableNameOrderDetail, fieldNameId, params);
+    //mysqlDao.findById(res, TableNameOrderDetail, fieldNameId, params);
+    console.log(" +++ " + "DAO find by id "+ params +" : " + TableNameOrderDetail);
+    var connection = mysql.createConnection(constant.mysqlInfo);
+    var sql_findbyid = constant.sql_script.sql_findById_isactive.replace('#table', TableNameOrderDetail).replace("#id",fieldNameId);
+    var sql_param = [params];
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ find by id connect error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
+        }else{
+            console.log(" +++ find by id connect success");
+            //mysqlHelper.query(res, message.functionName.findById, connection, sql_findbyid, sql_param);
+            var responseModel = new mysqlResponseModel.MysqlResponse();
+            connection.query(sql_findbyid, sql_param, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',message.functionName.findById);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else {
+                    console.log(" +++ query success - " + JSON.stringify({results : rows}));
+                    //responseModel.results = rows;
+                    responseModel.statusErrorCode = constant.error_code.success;
+                    if(rows.length == 0){
+                        responseModel.results = rows;
+                        responseModel.results.order_ship_id = 0;
+                        res.send(responseModel);
+                    }else {
+                        responseModel.results = rows[0];
+                        var sqlGetShippingIdByShipperAndOrder = constant.sql_script_order.sql_get_shipping_id_by_shipper_and_order;
+                        var connection = mysql.createConnection(constant.mysqlInfo);
+                        connection.query(sqlGetShippingIdByShipperAndOrder, [responseModel.results.order_id, accessTokenObj.user_id], function (err, rows1, fields) {
+                            if (err) {
+                                console.log(" +++ query error - " + err);
+                                responseModel.errorsObject = {
+                                    code: err.code,
+                                    errno: err.errno,
+                                    message: err.message,
+                                    sqlState: err.sqlState
+                                };
+                                var actionGetShippingInfo = message.functionName.get_shipping_info;
+                                responseModel.errorsMessage = message.errorQuery.replace('#1', actionGetShippingInfo);
+                                responseModel.results = {};
+                                responseModel.statusErrorCode = constant.error_code.error_system_query;
+                                res.send(responseModel);
+                            } else {
+                                console.log(" +++ getShippingInfo query is successfully - ");
+                                responseModel.errorsObject = {};
+                                responseModel.errorsMessage = "";
+                                responseModel.results.order_ship_id = rows1.length > 0 ? rows1[0].order_ship_id : 0;
+                                responseModel.statusErrorCode = constant.error_code.success;
+
+                                res.send(responseModel);
+                            }
+                        });
+                        connection.end();
+                    }
+                }
+            });
+            connection.end();
+        }
+    });
 }
 
 /*
