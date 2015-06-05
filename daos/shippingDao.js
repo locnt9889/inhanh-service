@@ -75,7 +75,7 @@ exports.createShipping = function(res, accessTokenObj, params) {
                             }
                         });
                         connection.end();
-                        responseModel.results = {"order_shipping_id" : newOrderShipDetail.order_ship_id};
+                        responseModel.results = {"order_ship_id" : newOrderShipDetail.order_ship_id};
                         responseModel.statusErrorCode = 0;
                         res.send(responseModel);
                     }
