@@ -73,7 +73,7 @@ exports.updateProfile = function(req, res){
     updateAccount.idcard = updatePersonreq.idcard ? updatePersonreq.idcard : "";
     updateAccount.idcard_date = updatePersonreq.idcard_date ? updatePersonreq.idcard_date : new Date();
     updateAccount.idcard_address = updatePersonreq.idcard_address ? updatePersonreq.idcard_address : "";
-    updateAccount.type = updatePersonreq.type ? updatePersonreq.type : "";
+    //updateAccount.type = updatePersonreq.type ? updatePersonreq.type : "";
     updateAccount.address = updatePersonreq.address ? updatePersonreq.address : "";
     updateAccount.city_id = updatePersonreq.city_id ? updatePersonreq.city_id : "";
 
