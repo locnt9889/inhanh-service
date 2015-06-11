@@ -430,8 +430,56 @@ exports.searchAccount = function(res, accessTokenObj, param){
  * @ param : access_token : access_token
  */
 exports.addContact = function(res, accessTokenObj, newContactObj){
-    newContactObj.user_id = accessTokenObj.user_id;
-    mysqlDao.addNew(res, TableNameUserContactDetail, newContactObj);
+    var responseModel = new mysqlResponseModel.MysqlResponse();
+
+    if(newContactObj.contact_id == accessTokenObj.user_id){
+        responseModel.errorsObject = {};
+        responseModel.errorsMessage = message.error_contact_add_yourself;
+        responseModel.results = {};
+        responseModel.statusErrorCode = constant.error_code.error_contact_add_yourself;
+        res.send(responseModel);
+    }else {
+        var connection = mysql.createConnection(constant.mysqlInfo);
+        var sql_check_account_in_contact = constant.sql_script_home.sql_check_account_in_contact;
+        var sql_param_check_contact = [newContactObj.contact_id, accessTokenObj.user_id];
+
+        var actionName = message.functionName.check_account_in_contact;
+
+        connection.connect(function(err,connect){
+            if(err){
+                console.log(" +++ check add contact connect error - " + err);
+                mysqlHelper.errorConnection(res, err, connection);
+            }else{
+                console.log(" +++ check add connect success");
+                var responseModel = new mysqlResponseModel.MysqlResponse();
+                connection.query(sql_check_account_in_contact, sql_param_check_contact, function(err, rows, fields) {
+                    if (err) {
+                        console.log(" +++ query error - " + err);
+                        responseModel.errorsObject = {
+                            code : err.code,
+                            errno : err.errno,
+                            message : err.message,
+                            sqlState : err.sqlState
+                        };
+                        responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
+                        responseModel.results = {};
+                        responseModel.statusErrorCode = constant.error_code.error_system_query;
+                        res.send(responseModel);
+                    }else if(rows.length > 0){
+                        responseModel.errorsObject = {};
+                        responseModel.errorsMessage = message.error_contact_add_contact_exist;
+                        responseModel.results = rows;
+                        responseModel.statusErrorCode = constant.error_code.error_contact_add_contact_exist;
+                        res.send(responseModel);
+                    }else{
+                        newContactObj.user_id = accessTokenObj.user_id;
+                        mysqlDao.addNew(res, TableNameUserContactDetail, newContactObj);
+                    }
+                });
+                connection.end();
+            }
+        });
+    }
 }
 
 /*

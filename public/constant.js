@@ -49,7 +49,9 @@ exports.error_code = {
     error_check_access_token : 5,
     error_check_oldpassword : 6,
     shipping_create_error_type : 10,
-    shipping_shopper_accept_reject_error_permission : 11
+    shipping_shopper_accept_reject_error_permission : 11,
+    error_contact_add_yourself : 12,
+    error_contact_add_contact_exist : 13
 }
 
 exports.sql_script = {
@@ -69,6 +71,7 @@ exports.sql_script_home = {
     sql_check_access_token : "SELECT * FROM access_token WHERE access_token = ? AND islogin = 1 AND isactive = 1",
     sql_check_oldpassword : "SELECT id FROM account WHERE isactive = 1 AND id = ? AND password = ?",
     sql_search_account : "SELECT * FROM account WHERE isactive = 1 AND NOT (id = ? OR id IN (SELECT DISTINCT contact_id FROM user_contact WHERE user_id = ?))",
+    sql_check_account_in_contact : "SELECT * FROM user_contact WHERE isactive = 1 AND contact_id = ? AND user_id = ?",
     sql_get_contact_by_id : "SELECT ac.* FROM account ac INNER JOIN user_contact uc ON ac.id = uc.contact_id WHERE ac.isactive = 1 AND uc.isactive = 1 AND uc.user_id = ?",
     sql_remove_contacts : "UPDATE user_contact SET isactive = 0 WHERE user_id = ? AND contact_id IN "
 }
