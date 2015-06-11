@@ -68,7 +68,7 @@ exports.sql_script_home = {
     sql_remove_access_token_logout : "UPDATE access_token SET islogin = 0,logout_time = ? WHERE access_token = ?",
     sql_check_access_token : "SELECT * FROM access_token WHERE access_token = ? AND islogin = 1 AND isactive = 1",
     sql_check_oldpassword : "SELECT id FROM account WHERE isactive = 1 AND id = ? AND password = ?",
-    sql_search_account : "SELECT * FROM account WHERE isactive = 1",
+    sql_search_account : "SELECT * FROM account WHERE isactive = 1 AND NOT (id = ? OR id IN (SELECT DISTINCT contact_id FROM user_contact WHERE user_id = ?))",
     sql_get_contact_by_id : "SELECT ac.* FROM account ac INNER JOIN user_contact uc ON ac.id = uc.contact_id WHERE ac.isactive = 1 AND uc.isactive = 1 AND uc.user_id = ?",
     sql_remove_contacts : "UPDATE user_contact SET isactive = 0 WHERE user_id = ? AND contact_id IN "
 }

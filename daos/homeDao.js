@@ -371,7 +371,7 @@ exports.searchAccount = function(res, accessTokenObj, param){
     var connection = mysql.createConnection(constant.mysqlInfo);
     console.log(" +++ " + "DAO searchAccount : ");
     var sql_search_account = constant.sql_script_home.sql_search_account;
-    var sql_param_search_account = [];
+    var sql_param_search_account = [accessTokenObj.user_id, accessTokenObj.user_id];
 
     if(param.type !== "ALL" ){
         sql_search_account = sql_search_account + " AND type = '" + param.type + "'";
