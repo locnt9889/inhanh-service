@@ -97,6 +97,15 @@ exports.findAccountById = function(req, res){
     //homeDao.findAccountById(res, paramId);
 }
 
+exports.accountProfileByUserID = function(req, res){
+    var accessToken = req.body.access_token;
+    var accountID = req.body.account_id;
+
+    var callback_param = accountID;
+    accessTokenDao.checkAccessToken(accessToken, res, homeDao.accountProfileByUserID, callback_param);
+    //homeDao.findAccountById(res, paramId);
+}
+
 exports.changePassword = function(req, res){
     var accessToken = req.body.access_token;
     var old_password = md5(req.body.old_password ? req.body.old_password : "");

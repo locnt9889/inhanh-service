@@ -248,6 +248,56 @@ exports.findAccountById = function(res, accessTokenObj, param){
 }
 
 /*
+ * @ name : accountProfileByUserID
+ * @ description : find object by id with isactive == 1
+ * @ authen : locnt
+ * @ param : res - response
+ * @ param : accessTokenObj - object get from access token
+ * @ param : param
+ */
+exports.accountProfileByUserID = function(res, accessTokenObj, param){
+    var connection = mysql.createConnection(constant.mysqlInfo);
+    console.log(" +++ " + "DAO find by id "+ accessTokenObj.user_id +" : " + TableNameAccount);
+    var sql_findbyid = constant.sql_script.sql_findById_isactive.replace('#table', TableNameAccount).replace('#id', fieldNameId);
+    var sql_param = [param];
+    var actionName = message.functionName.findById;
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ find by id connect error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
+        }else{
+            console.log(" +++ find by id connect success");
+            var responseModel = new mysqlResponseModel.MysqlResponse();
+            connection.query(sql_findbyid, sql_param, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ query error - " + err);
+                    responseModel.errorsObject = {
+                        code : err.code,
+                        errno : err.errno,
+                        message : err.message,
+                        sqlState : err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1',actionName);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else {
+                    if(rows.length > 0){
+                        rows[0].password = "******";
+                    }
+                    console.log(" +++ query success - " + JSON.stringify({results : rows}));
+                    responseModel.results = rows;
+                    responseModel.statusErrorCode = constant.error_code.success;
+                    res.send(responseModel);
+                }
+            });
+            connection.end();
+        }
+    });
+}
+
+/*
  * @ name : update profile
  * @ description : update account, no update email, username,id,create_date,isreview,isactive
  * @ authen : locnt

@@ -73,6 +73,17 @@ router.post('/findaccountbyid', function(req, res) {
 });
 
 /*
+ * @ name : home/AccountProfileByUserID
+ * @ description : find user by id
+ * @ authen : locnt
+ * @ param : id = 1
+ */
+router.post('/accountProfileByUserID', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : home/AccountProfileByUserID");
+    homeService.accountProfileByUserID(req, res);
+});
+
+/*
  * @ name : home/changepassword
  * @ description : change password
  * @ authen : locnt
