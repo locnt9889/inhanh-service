@@ -78,6 +78,7 @@ exports.sql_script_order = {
     sql_update_cost_ship_order : "UPDATE order_ship SET #update WHERE order_ship_id = ? AND isactive = 1",
     sql_update_shipper_for_order_detail : "UPDATE order_detail SET shipper_id = ?, status='BIDED' WHERE order_id = ? AND isactive = 1",
     sql_check_order_ship_and_shopping : "SELECT od.* FROM order_detail od INNER JOIN order_ship os ON od.order_id = os.order_id WHERE od.user_id = ? AND os.order_ship_id = ? AND od.isactive = 1",
+    sql_get_order_detail : "SELECT od.*, ac.firstname as author_firstname, ac.lastname as author_lastname FROM order_detail od INNER JOIN account ac ON od.user_id = ac.id WHERE od.order_id = ? AND od.isactive = 1",
     sql_get_shipping_by_order : "SELECT * FROM order_ship WHERE order_id = ? AND isactive = 1",
     sql_get_shipping_info : "SELECT * FROM order_ship WHERE order_ship_id = ? AND isactive = 1",
     sql_get_detail_by_shipping : "SELECT * FROM order_ship_detail WHERE order_ship_id = ? AND isactive = 1",

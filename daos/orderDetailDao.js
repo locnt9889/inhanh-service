@@ -51,7 +51,8 @@ exports.getDetailOrder = function(res, accessTokenObj, params) {
     //mysqlDao.findById(res, TableNameOrderDetail, fieldNameId, params);
     console.log(" +++ " + "DAO find by id "+ params +" : " + TableNameOrderDetail);
     var connection = mysql.createConnection(constant.mysqlInfo);
-    var sql_findbyid = constant.sql_script.sql_findById_isactive.replace('#table', TableNameOrderDetail).replace("#id",fieldNameId);
+    //var sql_findbyid = constant.sql_script.sql_findById_isactive.replace('#table', TableNameOrderDetail).replace("#id",fieldNameId);
+    var sql_findbyid = constant.sql_script_order.sql_get_order_detail;
     var sql_param = [params];
     connection.connect(function(err,connect){
         if(err){
