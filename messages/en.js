@@ -26,7 +26,8 @@ exports.contentMessage = {
         get_shipping_info : "get shipping info",
         sql_update_shipper_for_order_detail : "sql update shipper for order detail",
         get_detail_order_ship : "get detail order ship",
-        check_account_in_contact : "check account in contact list"
+        check_account_in_contact : "check account in contact list",
+        check_permission_order : "check permission order"
     },
     errorConnectionDB : "Connection to Database is failure!",
     errorQuery : "Query with #1 is failure!",
@@ -40,6 +41,7 @@ exports.contentMessage = {
     shipping_create_error_type : "User don't have permission for create a bidding order.Please make sure you are a shipper!",
     shipping_shopper_accept_reject_error_permission : "You don't have permission for action",
     error_contact_add_yourself : "You can not add yourself to list contact, please retry with other account!",
-    error_contact_add_contact_exist : "Account was existed in your list contact, please retry with other account!"
+    error_contact_add_contact_exist : "Account was existed in your list contact, please retry with other account!",
+    check_permission_order : "You don't have permission for action"
 }
 

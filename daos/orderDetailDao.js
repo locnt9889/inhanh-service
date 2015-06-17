@@ -130,9 +130,20 @@ exports.getDetailOrder = function(res, accessTokenObj, params) {
 exports.getAllOrder = function(res, accessTokenObj, status){
     var connection = mysql.createConnection(constant.mysqlInfo);
     console.log(" +++ " + "DAO getAllOrder : ");
-    var sql_get_all_order = constant.sql_script_order.sql_search_all_order_pre + " AND od.user_id = " + accessTokenObj.user_id;
+    var sql_get_all_order = constant.sql_script_order.sql_search_all_order_pre;
+
+    if(accessTokenObj.user_type == "SHOPPER"){
+        sql_get_all_order += " AND od.user_id = " + accessTokenObj.user_id;
+    }else{
+        sql_get_all_order += " AND od.shipper_id = " + accessTokenObj.user_id;
+    }
+
     var sql_param_get_all_order = [];
-    if(status.toUpperCase() !== "ALL"){
+    if(status.toUpperCase() == "EXPIREDATE"){
+        sql_get_all_order += " AND od.order_date_expired < ?";
+        sql_param_get_all_order = [new Date()];
+    }
+    if(status.toUpperCase() !== "ALL" && status.toUpperCase() == "EXPIREDATE"){
         sql_get_all_order += " AND od.status = ?";
         sql_param_get_all_order = [status];
     }
@@ -285,3 +296,90 @@ exports.getOrderNoBidByCity = function(res, accessTokenObj, fromCityCode){
         }
     });
 }
+
+/*
+ * @ name : order/updateShipping
+ * @ description : updateShipping
+ * @ authen : locnt
+ * @ param : access_token : access_token
+ * @ param : orderId : orderId
+ */
+exports.updateShipping = function(res, accessTokenObj, orderId){
+    var connection = mysql.createConnection(constant.mysqlInfo);
+    console.log(" +++ " + "DAO updateShipping : ");
+    var sql_check_permission_order = "";
+    var sql_update_shipping = constant.sql_script_order.sql_update_shipping;
+    var sql_update_shipping_param = [];
+    if(accessTokenObj.user_type == "SHIPPER"){
+        sql_check_permission_order = constant.sql_script_order.sql_get_check_order_vs_shipper;
+        sql_update_shipping_param = ["SHIPPING", orderId];
+    }else{
+        sql_check_permission_order = constant.sql_script_order.sql_get_check_order_vs_shopper;
+        sql_update_shipping_param = ["FINISH", orderId];
+    }
+    var sql_check_permission_order_param = [orderId, accessTokenObj.user_id];
+
+    var actionName = message.functionName.check_permission_order;
+
+    connection.connect(function(err,connect){
+        if(err){
+            console.log(" +++ get updateShipping error - " + err);
+            mysqlHelper.errorConnection(res, err, connection);
+        }else{
+            console.log(" +++ get updateShipping connect success");
+            var responseModel = new mysqlResponseModel.MysqlResponse();
+            connection.query(sql_check_permission_order, sql_check_permission_order_param, function(err, rows, fields) {
+                if (err) {
+                    console.log(" +++ updateShipping query error - " + err);
+                    responseModel.errorsObject = {
+                        code: err.code,
+                        errno: err.errno,
+                        message: err.message,
+                        sqlState: err.sqlState
+                    };
+                    responseModel.errorsMessage = message.errorQuery.replace('#1', actionName);
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_system_query;
+                    res.send(responseModel);
+                }else if(rows.length == 0){
+                    console.log(" +++ updateShipping error permission - ");
+                    responseModel.errorsObject = {};
+                    responseModel.errorsMessage = message.check_permission_order;
+                    responseModel.results = {};
+                    responseModel.statusErrorCode = constant.error_code.error_check_permission_order;
+                    res.send(responseModel);
+                }else {
+                    console.log(" +++ check permission query is successfully - ");
+                    var connection = mysql.createConnection(constant.mysqlInfo);
+                    connection.query(sql_update_shipping, sql_update_shipping_param, function (err, rows1, fields) {
+                        if (err) {
+                            console.log(" +++ query error - " + err);
+                            responseModel.errorsObject = {
+                                code: err.code,
+                                errno: err.errno,
+                                message: err.message,
+                                sqlState: err.sqlState
+                            };
+                            var checkPermissionOrder = message.functionName.check_permission_order;
+                            responseModel.errorsMessage = message.errorQuery.replace('#1', checkPermissionOrder);
+                            responseModel.results = {};
+                            responseModel.statusErrorCode = constant.error_code.error_system_query;
+                            res.send(responseModel);
+                        } else {
+                            console.log(" +++ getShippingInfo query is successfully - ");
+                            responseModel.errorsObject = {};
+                            responseModel.errorsMessage = "";
+                            responseModel.results = rows1;
+                            responseModel.statusErrorCode = constant.error_code.success;
+
+                            res.send(responseModel);
+                        }
+                    });
+                    connection.end();
+                }
+            });
+            connection.end();
+        }
+    });
+}
+

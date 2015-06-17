@@ -135,3 +135,17 @@ exports.getOrderNoBidByCity = function(req, res){
     var callback_param = fromCityCode;
     accessTokenDao.checkAccessToken(accessToken, res, orderDetailDao.getOrderNoBidByCity, callback_param);
 }
+
+exports.updateShipping = function(req, res){
+    var accessToken = req.body.access_token;
+    var order_id = req.body.order_id;
+    var orderIdNum = 0;
+    try{
+        orderIdNum = parseInt(order_id);
+    }catch (e){
+        console.log("Error parse number");
+    }
+
+    var callback_param = orderIdNum;
+    accessTokenDao.checkAccessToken(accessToken, res, orderDetailDao.updateShipping, callback_param);
+}

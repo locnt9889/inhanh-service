@@ -85,3 +85,14 @@ router.post('/getOrderNoBidByCity', function(req, res) {
     console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : order/getOrderNoBidByCity");
     orderDetailService.getOrderNoBidByCity(req, res);
 });
+
+/*
+ * @ name : order/updateShipping
+ * @ description : updateShipping
+ * @ authen : locnt
+ * @ param : order id
+ */
+router.post('/updateShipping', function(req, res) {
+    console.log("@@@@@SERVICE : ----- " + moment().format(constant.formatTime) + " -----API : order/updateShipping");
+    orderDetailService.updateShipping(req, res);
+});
