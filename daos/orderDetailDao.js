@@ -135,7 +135,9 @@ exports.getAllOrder = function(res, accessTokenObj, status){
     if(accessTokenObj.user_type == "SHOPPER"){
         sql_get_all_order += " AND od.user_id = " + accessTokenObj.user_id;
     }else{
-        sql_get_all_order += " AND od.shipper_id = " + accessTokenObj.user_id;
+        //sql_get_all_order += " AND od.shipper_id = " + accessTokenObj.user_id;
+        var sql_search_all_order_by_shipper_bidding =  constant.sql_script_order.sql_search_all_order_by_shipper_bidding + accessTokenObj.user_id;
+        sql_get_all_order += " AND ( od.shipper_id = " + accessTokenObj.user_id + " OR od.order_id IN (" + sql_search_all_order_by_shipper_bidding + "))";
     }
 
     var sql_param_get_all_order = [];
